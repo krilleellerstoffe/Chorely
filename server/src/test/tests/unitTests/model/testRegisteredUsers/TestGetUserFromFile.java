@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shared.transferable.User;
 
-public class testGetUserFromFile {
+public class TestGetUserFromFile {
 
 
     /*

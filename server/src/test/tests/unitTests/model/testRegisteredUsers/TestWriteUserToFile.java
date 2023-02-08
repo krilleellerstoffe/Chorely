@@ -3,7 +3,7 @@ import model.RegisteredUsers;
 import org.junit.jupiter.api.*;
 import shared.transferable.*;
 
-public class testWriteUserToFile {
+public class TestWriteUserToFile {
 
     /*
     todo: these tests rely on getUserFromFile because currently writeUserToFile returns void. all tests need to be updated once method is updated to give a return value
