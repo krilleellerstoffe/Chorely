@@ -28,6 +28,14 @@ public class GetUserFromFileTest {
     }
 
     @Test
+    public void testSingleCharacter() {
+        User testUser = new User("t", "t");
+        RegisteredUsers.getInstance().writeUserToFile(testUser);
+        User testResult = RegisteredUsers.getInstance().getUserFromFile(testUser);
+        Assertions.assertEquals(testUser, testResult);
+    }
+
+    @Test
     public void testStringLowercase() {
         User testUser = new User("testuser", "testpassword");
         RegisteredUsers.getInstance().writeUserToFile(testUser);

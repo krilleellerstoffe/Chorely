@@ -24,6 +24,13 @@ public class WriteUserToFileTest {
     }
 
     @Test
+    public void testSingleCharacter() {
+        User testUser = new User("t", "t");
+        RegisteredUsers.getInstance().writeUserToFile(testUser);
+        User testResult = RegisteredUsers.getInstance().getUserFromFile(testUser);
+        Assertions.assertEquals(testUser, testResult);
+    }
+    @Test
     public void testLongerThanTen() {
         //placeholder awaiting requirement to be implemented or not
         User testUser = new User("testusername", "testpassword");
@@ -33,8 +40,8 @@ public class WriteUserToFileTest {
     }
 
     @Test
-    public void testStringLowercase() {
-        User testUser = new User("testuser", "testpassword");
+    public void testStringLowercaseTenCharacters() {
+        User testUser = new User("testuseron", "testpasswo");
         RegisteredUsers.getInstance().writeUserToFile(testUser);
         User testResult = RegisteredUsers.getInstance().getUserFromFile(testUser);
         Assertions.assertEquals(testUser, testResult);

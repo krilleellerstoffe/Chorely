@@ -23,20 +23,28 @@ public class UserNameAvailableTest {
     }
 
     @Test
-    public void testLongerThanTen() {
+    public void testSingleCharacter() {
         //placeholder awaiting requirement to be implemented or not
-        String testUser = "testusername";
+        String testUser = "t";
         boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
-        Assertions.assertFalse(testResult);
+        Assertions.assertTrue(testResult);
     }
 
     @Test
-    public void testStringLowercase() {
-        String testUser = "testuser";
+    public void testStringLowercaseTenCharacters() {
+        String testUser = "testuseron";
         File file = new File("files/users/" + testUser + ".dat");
         file.delete();
         boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
         Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testLowercaseMoreThanTenCharacters() {
+        //placeholder awaiting requirement to be implemented or not
+        String testUser = "testuserone";
+        boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
+        Assertions.assertFalse(testResult);
     }
 
     @Test
