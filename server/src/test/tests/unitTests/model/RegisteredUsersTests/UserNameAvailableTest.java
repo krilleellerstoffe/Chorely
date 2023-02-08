@@ -1,4 +1,4 @@
-package unitTests.model.testRegisteredUsers;
+package unitTests.model.RegisteredUsersTests;
 
 import model.RegisteredUsers;
 import org.junit.jupiter.api.Assertions;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-public class TestUserNameAvailable {
+public class UserNameAvailableTest {
 
     @Test
     public void testNull() {
@@ -18,6 +18,14 @@ public class TestUserNameAvailable {
     @Test
     public void testEmpty() {
         String testUser = "";
+        boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
+        Assertions.assertFalse(testResult);
+    }
+
+    @Test
+    public void testLongerThanTen() {
+        //placeholder awaiting requirement to be implemented or not
+        String testUser = "testusername";
         boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
         Assertions.assertFalse(testResult);
     }
@@ -38,16 +46,6 @@ public class TestUserNameAvailable {
         file.delete();
         boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
         Assertions.assertTrue(testResult);
-    }
-
-    @Test
-    public void testLongerThanTen() {
-        //placeholder awaiting requirement to be implemented or not
-        String testUser = "testusername";
-        File file = new File("files/users/" + testUser + ".dat");
-        file.delete();
-        boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
-        Assertions.assertFalse(testResult);
     }
 
     @Test

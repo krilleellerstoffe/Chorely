@@ -1,11 +1,11 @@
-package unitTests.model.testRegisteredUsers;
+package unitTests.model.RegisteredUsersTests;
 
 import model.RegisteredUsers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shared.transferable.User;
 
-public class TestGetUserFromFile {
+public class GetUserFromFileTest {
 
 
     /*
