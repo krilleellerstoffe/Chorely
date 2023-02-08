@@ -1,4 +1,4 @@
-package unitTests.testRegisteredUsers;
+package unitTests.model.testRegisteredUsers;
 
 import model.RegisteredUsers;
 import org.junit.jupiter.api.Assertions;
