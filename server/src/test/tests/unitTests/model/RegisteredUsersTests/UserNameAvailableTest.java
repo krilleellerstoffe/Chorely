@@ -5,7 +5,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-
+/**
+ * UsernameAvailable Tester.
+ *
+ * @author Christopher O'Driscoll
+ * @since <pre>feb. 8, 2023</pre>
+ * @version 1.0
+ */
 public class UserNameAvailableTest {
 
     @Test
@@ -25,7 +31,7 @@ public class UserNameAvailableTest {
     @Test
     public void testSingleCharacter() {
         //placeholder awaiting requirement to be implemented or not
-        String testUser = "t";
+        String testUser = "r";
         boolean testResult = RegisteredUsers.getInstance().userNameAvailable(testUser);
         Assertions.assertTrue(testResult);
     }

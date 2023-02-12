@@ -14,14 +14,6 @@ import org.junit.jupiter.api.Test;
 */ 
 public class ServerNetworkTest { 
 
-@BeforeAll
-public void before() throws Exception { 
-} 
-
-@AfterAll
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: run() 

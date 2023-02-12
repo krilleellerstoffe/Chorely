@@ -13,14 +13,6 @@ import org.junit.jupiter.api.Test;
 */ 
 public class ServerControllerTest { 
 
-@BeforeAll
-public void before() throws Exception { 
-} 
-
-@AfterAll
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: handleMessage(Message msg) 

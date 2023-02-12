@@ -2,7 +2,13 @@ package unitTests.model.RegisteredUsersTests;
 import model.RegisteredUsers;
 import org.junit.jupiter.api.*;
 import shared.transferable.*;
-
+/**
+ * WriteUserToFile Tester.
+ *
+ * @author Christopher O'Driscoll
+ * @since <pre>feb. 8, 2023</pre>
+ * @version 1.0
+ */
 public class WriteUserToFileTest {
 
     //todo: these tests rely on getUserFromFile because writeUserToFile returns void. all tests need to be updated once return value implemented

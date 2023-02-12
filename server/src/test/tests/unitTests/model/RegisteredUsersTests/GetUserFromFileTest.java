@@ -4,9 +4,14 @@ import model.RegisteredUsers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shared.transferable.User;
-
+/**
+ * GetUserFromFile Tester.
+ *
+ * @author Christopher O'Driscoll
+ * @since <pre>feb. 8, 2023</pre>
+ * @version 1.0
+ */
 public class GetUserFromFileTest {
-
 
     /*
     todo: these tests rely on writeUserToFile
