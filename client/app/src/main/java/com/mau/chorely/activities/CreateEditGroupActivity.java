@@ -45,6 +45,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     int selectedMemberIndex;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Model model = Model.getInstance(getFilesDir());
+                Model model = Model.getInstance(getFilesDir(),getApplicationContext());
                 if (model.isConnected()) {
                     if (lastSearchedUser == null) {
                         lastSearchedUser = model.removeLastSearchedUser();
@@ -190,7 +191,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         } else {
             selectedGroup = new Group();
             newGroup = true;
-            selectedGroup.addUser(Model.getInstance(getFilesDir()).getUser());
+            selectedGroup.addUser(Model.getInstance(getFilesDir(),this).getUser());
 //            initSpinner();
             initListView();
         }
@@ -211,7 +212,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 } else {
                     command = NetCommands.clientInternalGroupUpdate;
                 }
-                Model model = Model.getInstance(getFilesDir());
+                Model model = Model.getInstance(getFilesDir(),this);
                 ArrayList<Transferable> data = new ArrayList<>();
                 selectedGroup.setName(groupName);
                 selectedGroup.setDescription(groupDescription);
@@ -263,7 +264,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         if (!searchString.equals("")) {
             if (!selectedGroup.getUsers().contains(new User(searchString, ""))) {
                 findViewById(R.id.edit_group_searchMemberButton).setVisibility(View.INVISIBLE);
-                Model model = Model.getInstance(getFilesDir());
+                Model model = Model.getInstance(getFilesDir(),this);
                 User user = new User(searchString, "");
                 ArrayList<Transferable> data = new ArrayList<>();
                 data.add(user);
@@ -300,8 +301,33 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public void addMember(View view) {
         selectedGroup.addUser(lastSearchedUser);
         adapter.notifyDataSetChanged();
+        memberAddedNotification();     //@Author Johan, Måns
         cancelFoundMember(null);
     }
 
+    /**
+     * @Author Johan, Måns
+     * Sends a notification to the server indicating that a new member has been added to a group.
+     *
+     * This method creates a `NetCommands.notificationSent` message and
+     * populates it with the current user and the selected group along with its updated members.
+     * The message is then sent to the server via the handleTask method.
+     *
+     * @return The message containing the notification information, including the updated group and its members.
+     */
+    public Message memberAddedNotification() {
+        NetCommands netCommands = NetCommands.notificationSent;
+        Model model = Model.getInstance(getFilesDir(),this);
 
+        ArrayList<Transferable> data = new ArrayList<>();
+        for (int i = 0; i < selectedGroup.size(); i++) {
+            if (selectedGroup.getUsers().get(i) != lastSearchedUser) {
+                data.add(selectedGroup.getUsers().get(i));
+            }
+        }
+        data.add(selectedGroup);
+        Message message = new Message(netCommands, model.getUser(), data);
+        model.handleTask(message);
+        return message;
+    }
 }

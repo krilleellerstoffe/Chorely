@@ -1,6 +1,11 @@
 
 package com.mau.chorely.model;
 
+import android.app.NotificationManager;
+import android.content.Context;
+
+import androidx.core.app.NotificationCompat;
+
 import shared.transferable.Chore;
 import shared.transferable.Group;
 import shared.transferable.Message;
@@ -9,6 +14,7 @@ import shared.transferable.Reward;
 import shared.transferable.Transferable;
 import shared.transferable.User;
 
+import com.mau.chorely.R;
 import com.mau.chorely.activities.utils.Presenter;
 import com.mau.chorely.model.persistentStorage.PersistentStorage;
 
@@ -22,7 +28,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * The focus of the class is to recieve requests from both the activities, and the network, in the
  * form of messages.
  *
- * @author Timothy Denison, Emma Svensson, Theresa Dannberg
+ * @author Timothy Denison, Emma Svensson, Theresa Dannberg, Johan Salomonsson, Måns Harnesk
  * @version 2.0
  */
 public class Model {
@@ -33,6 +39,7 @@ public class Model {
     private ClientNetworkManager network;
     private User lastSearchedUser;
     private static Model model;
+    private Context context;
 
     private Model() {
     }
@@ -40,16 +47,17 @@ public class Model {
     ;
 
 
-    public static Model getInstance(File appFilesDir) {
+    public static Model getInstance(File appFilesDir, Context context) {
         if (model == null) {
-            model = new Model(appFilesDir);
+            model = new Model(appFilesDir, context);
             Exception e = new Exception("MODEL UNREFERENCED");
             e.printStackTrace();
         }
         return model;
     }
 
-    public Model(File filesDir) {
+    public Model(File filesDir, Context context) {
+        this.context = context;
         network = new ClientNetworkManager(this);
         Thread modelThread = new Thread(new ModelThread());
         modelThread.start();
@@ -126,6 +134,7 @@ public class Model {
      */
     public void handleTask(Message msg) {
         try {
+            System.out.println(msg);
             taskToHandle.put(msg);
         } catch (InterruptedException e) {
             System.out.println("Error in model callback" + e.getMessage());
@@ -270,6 +279,46 @@ public class Model {
 
     }
 
+    /**
+     * @Author Johan, Måns
+     * Sends a notification to the Android Notification Manager and displays a notification to the user.
+     *  @param currentTask The current task that triggers the notification.
+     *  @return A boolean indicating whether the notification was successfully sent.
+     *  @throws Exception If there was an error sending the notification.
+     */
+    public boolean receiveNotification(Message currentTask) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Notifications")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Member Added")
+                .setContentText("A new member was added to " + getGroupNameForNotification(currentTask))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId("Notifications");
+        int notificationId = 2;
+        try {
+            notificationManager.notify(notificationId, builder.build());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * @Author Johan
+     * Returns the name of the group in the given message.
+     *
+     * @param data The message that contains the data.
+     * @return The name of the group, or `null` if no group was found in the data.
+     */
+    public String getGroupNameForNotification(Message data){
+        for (int i  = 0; i < data.getData().size(); i++){
+            if (data.getData().get(i) instanceof Group) {
+                return ((Group) data.getData().get(i)).getName();
+            }
+        }
+
+        return null;
+    }
 
 
     /**
@@ -375,8 +424,12 @@ public class Model {
                             logOut(currentTask);
                             break;
 
-
-
+                        case notificationSent:
+                            network.sendMessage(currentTask);
+                            break;
+                        case notificationReceived:          //@author Johan, Måns
+                            receiveNotification(currentTask);
+                            break;
                         default:
                             System.out.println("Unrecognized command: " + command);
                             Presenter.getInstance().toastCurrent("Unknown command: " + command);
