@@ -298,3 +298,10 @@ obj/
 
 server/logs/*.log.*
 server/logs/*.log
+client/.idea/deploymentTargetDropDown.xml
+client/.idea/deploymentTargetDropDown.xml
+client/app/.idea/workspace.xml
+client/.idea/deploymentTargetDropDown.xml
+server/.idea/compiler.xml
+server/.idea/libraries/bluecatcode_junit_4_10_extended.xml
+server/server.iml
