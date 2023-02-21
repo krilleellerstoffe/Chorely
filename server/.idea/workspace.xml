@@ -5,13 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="coupled register/login methods -&gt; database users">
+      <change afterPath="$PROJECT_DIR$/../client/app/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/app/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/app/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/app/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/microsoft_sqlserver_mssql_jdbc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sazabi_bcrypt4z_scalaz_2_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/ChoreRewardQueries.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/DatabaseConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/GroupQueries.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/QueryExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/UserQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/Chorely.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/Chorely.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/LogInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/LogInActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/ManageGroupsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/ManageGroupsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/centralFragments/FragmentChores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/centralFragments/FragmentChores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/ClientNetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/ClientNetworkManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/persistentStorage/PersistentStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/persistentStorage/PersistentStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Chore.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Chore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/groups/5a159043-ab3c-4206-a279-64dc70764a4d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/groups/5a159043-ab3c-4206-a279-64dc70764a4d.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/users/t.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/users/t.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/users/testUser.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/users/testUser.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/GroupQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/GroupQueries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/UserQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/UserQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Reward.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/Reward.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/StartProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/StartProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/RegisteredUsers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RegisteredUsers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/sytemtests/GroupManagementTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/sytemtests/GroupManagementTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
