@@ -1,5 +1,6 @@
 package unitTests.controller.ServerControllerTests;
 
+import controller.ServerController;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,9 @@ import org.junit.jupiter.api.Test;
 * @author <Authors name> 
 * @since <pre>feb. 8, 2023</pre> 
 * @version 1.0 
-*/ 
-public class ServerControllerTest { 
+*/
+
+public class ServerControllerTest {
 
 /** 
 * 
