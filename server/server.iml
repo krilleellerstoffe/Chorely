@@ -27,5 +27,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="de.svenkubiak.jBCrypt" level="project" />
+    <orderEntry type="library" name="bluecatcode.mockito.1.10.19.extended" level="project" />
   </component>
 </module>
