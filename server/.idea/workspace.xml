@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="coupled register/login methods -&gt; database users">
-      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/shared/transferable/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/tests/service/ChoreRewardQueriesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest_DS_Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/tests/service/Unit_QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/QueryExecutorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest_DS.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +50,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">

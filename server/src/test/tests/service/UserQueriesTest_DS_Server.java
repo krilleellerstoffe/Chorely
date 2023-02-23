@@ -6,13 +6,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import shared.transferable.Group;
 import shared.transferable.User;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,20 +18,26 @@ import static org.junit.jupiter.api.Assertions.*;
  *  -Testing the queries written against the database
  *  -Testing the response the database
  * */
-class UserQueriesTest {
+class UserQueriesTest_DS_Server {
 
     public static DatabaseConnection con = null;
+    private Socket socket;
     private QueryExecutor queryExecutor;
     private UserQueries userQueries;
 
     @BeforeEach
     void setUp() {
+
         con = new DatabaseConnection("test");
         // Set up a test database and instantiate UserQueries
         queryExecutor = new QueryExecutor(con);
         userQueries = new UserQueries(queryExecutor);
     }
 
+    /**
+     * @author Hadi Saghir
+     * @author Mirko
+     * */
 
     @Test
     void registerUser() throws SQLException {
@@ -51,6 +53,7 @@ class UserQueriesTest {
         assertTrue(resultSet.next());
         assertEquals(BCrypt.hashpw(password, BCrypt.gensalt()), resultSet.getString("password"));
         assertEquals(isAdult, resultSet.getBoolean("is_adult"));
+
 
         // Register a user that already exists
         success = userQueries.registerUser(username, password, isAdult);
