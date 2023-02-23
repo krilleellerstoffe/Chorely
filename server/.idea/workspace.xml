@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="coupled register/login methods -&gt; database users">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/service/QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/Unit_QueryExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +52,15 @@
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -69,7 +74,7 @@
       <recent name="service" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.QueryExecutorTest.executeReadQuery">
+  <component name="RunManager">
     <configuration name="DatabaseConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="service.DatabaseConnection" />
       <module name="server" />
@@ -109,7 +114,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Unit_QueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -118,13 +123,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="service" />
-      <option name="MAIN_CLASS_NAME" value="service.QueryExecutorTest" />
+      <option name="MAIN_CLASS_NAME" value="service.Unit_QueryExecutorTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryExecutorTest.executeReadQuery" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Unit_QueryExecutorTest.executeReadQuery" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -133,7 +138,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="service" />
-      <option name="MAIN_CLASS_NAME" value="service.QueryExecutorTest" />
+      <option name="MAIN_CLASS_NAME" value="service.Unit_QueryExecutorTest" />
       <option name="METHOD_NAME" value="executeReadQuery" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -142,8 +147,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.QueryExecutorTest.executeReadQuery" />
-        <item itemvalue="JUnit.QueryExecutorTest" />
+        <item itemvalue="JUnit.Unit_QueryExecutorTest.executeReadQuery" />
+        <item itemvalue="JUnit.Unit_QueryExecutorTest" />
         <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.StartProgram" />
         <item itemvalue="Application.GroupQueries" />

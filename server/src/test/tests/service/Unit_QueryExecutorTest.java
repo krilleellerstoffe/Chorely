@@ -11,13 +11,14 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class QueryExecutorTest {
+class Unit_QueryExecutorTest {
     public static DatabaseConnection con = null;
     private QueryExecutor queryExecutor = null;
 
-    /**
-     * Establish connection before execution
-     * */
+    //This was intended for integration testing
+
+    // Establish connection before execution
+
     @BeforeEach
     void setUp() {
         con= mock(DatabaseConnection.class);
@@ -126,6 +127,23 @@ class QueryExecutorTest {
 
     }
 
+    /**
+     * @author Hadi Saghir
+     * This method tests SELECT transaction
+     *
+     * As this is a mock test, a state transition check can be testing using setAutoCommit's state
+     *  1 switch test should do it
+     *  -begin, chnge, end and change
+     *  -being, change, rollback, end, change.
+     *  -Returns:
+     *      -no return (no elements match query) (recieving an empty resultSet)
+     *      -with return (this is done by throw exception not being invoked)
+     *
+     * We also need to test invalid queries and the response of the DB. This can be done by
+     *  - testing invalid WHERE statement,  e.g. WHERE groupID = "TEST"
+     *  - testing invalid table,  e.g. table user instead of users
+     *
+     * */
     @Test
     void beginTransaction() throws SQLException {
         // Mock state where autocommit is false
@@ -158,5 +176,33 @@ class QueryExecutorTest {
 
     @Test
     void rollbackTransaction() {
+    }
+
+    void oneWayswitch() throws SQLException {
+        // Mock state where autocommit is true
+        Statement statement = mock(Statement.class);
+        when(con.getConnection().createStatement()).thenReturn(statement);
+        doNothing().when(con.getConnection()).setAutoCommit(true);
+
+        // Call the method and assert that the Statement object is returned
+        Statement result = queryExecutor.endTransaction();
+        assertEquals(statement, result);
+
+        // Verify that the setAutoCommit method was called once
+        verify(con.getConnection(), times(1)).setAutoCommit(true);
+    }
+
+    void change() throws SQLException {
+        // Mock state where autocommit is true
+        Statement statement = mock(Statement.class);
+        when(con.getConnection().createStatement()).thenReturn(statement);
+        doNothing().when(con.getConnection()).setAutoCommit(true);
+
+        // Call the method and assert that the Statement object is returned
+        Statement result = queryExecutor.endTransaction();
+        assertEquals(statement, result);
+
+        // Verify that the setAutoCommit method was called once
+        verify(con.getConnection(), times(1)).setAutoCommit(true);
     }
 }
