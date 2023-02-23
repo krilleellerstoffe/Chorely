@@ -11,7 +11,13 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class Unit_QueryExecutorTest {
+/**
+ * This class has the purpose to test the query executor, this entails the following:
+ *  -mocking the database
+ *  -Testing the logic of the algorithm based on the response of the database
+ *
+ * */
+class QueryExecutorTest {
     public static DatabaseConnection con = null;
     private QueryExecutor queryExecutor = null;
 

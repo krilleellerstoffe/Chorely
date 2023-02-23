@@ -16,6 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class has the purpose to test the user queries, this entails the following:
+ *  -dependency on the database (functional database, functional queryExecutor class)
+ *  -Testing the queries written against the database
+ *  -Testing the response the database
+ * */
 class UserQueriesTest {
 
     public static DatabaseConnection con = null;
@@ -32,7 +38,7 @@ class UserQueriesTest {
 
 
     @Test
-    void registerUser() {
+    void registerUser() throws SQLException {
         // Register a new user
         String username = "test_user";
         String password = "test_password";
@@ -47,7 +53,7 @@ class UserQueriesTest {
         assertEquals(isAdult, resultSet.getBoolean("is_adult"));
 
         // Register a user that already exists
-        boolean success = userQueries.registerUser(username, password, isAdult);
+        success = userQueries.registerUser(username, password, isAdult);
         assertTrue(success);
 
         // Try to register the same user again
@@ -59,17 +65,96 @@ class UserQueriesTest {
 
     @Test
     void loginUser() {
+        // Register a user
+        String username = "test_user";
+        String password = "test_password";
+        boolean isAdult = true;
+        userQueries.registerUser(username, "test_password", isAdult); //in case registerUser doesn't run first
+
+        // Log in the user with correct credentials
+        User loggedInUser = userQueries.loginUser(username, password);
+
+        // Check that the correct user was logged in and that their groups were retrieved
+        assertNotNull(loggedInUser);
+        assertEquals(username, loggedInUser.getUsername());
+        assertEquals(isAdult, loggedInUser.isAdult());
+        assertEquals(new ArrayList<Group>(), loggedInUser.getDbGroups()); // empty group list
+
+        // Log in the user with incorrect password
+        loggedInUser = userQueries.loginUser(username, "incorrect_password");
+
+        // Check that the login failed and null was returned
+        assertNull(loggedInUser);
     }
 
     @Test
     void getUserInfo() {
+        // Register a user
+        String username = "test_user";
+        boolean isAdult = true;
+        userQueries.registerUser(username, "test_password", isAdult); //in case registerUser doesn't run first
+
+        // Get the user's info
+        User user = userQueries.getUserInfo(username);
+
+        // Check that the correct user was returned
+        assertNotNull(user);
+        assertEquals(username, user.getUsername());
+        assertEquals(isAdult, user.isAdult());
+
+
+        // Log in the user with incorrect password
+        User loggedInUser = userQueries.loginUser(username, "incorrect_password");
+
+        // Check that the login failed and null was returned
+        assertNull(loggedInUser);
+
+
     }
 
     @Test
     void deleteAccount() {
+        // create a user for testing
+        String testUserName = "testUser";
+        String testPassword = "testPassword";
+        userQueries.registerUser(testUserName, testPassword, true);
+        User testUser = userQueries.getUserInfo(testUserName);
+
+        // delete user with wrong password
+        String wrongPassword = "wrongPassword";
+        boolean isDeleted = userQueries.deleteAccount(testUser, wrongPassword);
+        assertFalse(isDeleted);
+
+        // check that user is not deleted
+        assertNotNull(userQueries.getUserInfo(testUserName));
+
+        // delete user
+        isDeleted = userQueries.deleteAccount(testUser, testPassword);
+        assertTrue(isDeleted);
+
+        // check that user is deleted
+        assertNull(userQueries.getUserInfo(testUserName));
     }
 
     @Test
     void checkPassword() {
+        // create a user for testing
+        String testUserName = "testUser";
+        String testPassword = "testPassword";
+        userQueries.registerUser(testUserName, testPassword, true);
+
+        // check password for correct user
+        boolean isPasswordCorrect = userQueries.checkPassword(testUserName, testPassword);
+        assertTrue(isPasswordCorrect);
+
+        // check password for wrong user
+        String wrongUserName = "wrongUser";
+        boolean isWrongPasswordCorrect = userQueries.checkPassword(wrongUserName, testPassword);
+        assertFalse(isWrongPasswordCorrect);
+
+        // check wrong password for correct user
+        String wrongPassword = "wrongPassword";
+        boolean isWrongPasswordCorrect2 = userQueries.checkPassword(testUserName, wrongPassword);
+        assertFalse(isWrongPasswordCorrect2);
     }
 }

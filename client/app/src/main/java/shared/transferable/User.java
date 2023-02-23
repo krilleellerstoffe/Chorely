@@ -90,6 +90,7 @@ public class User implements Transferable {
     public ArrayList<Group> getDbGroups() {
         return dbGroups;
     }
+
     public boolean setDBGroups (ArrayList<Group> groups) {
         boolean success = false;
         dbGroups = groups;
