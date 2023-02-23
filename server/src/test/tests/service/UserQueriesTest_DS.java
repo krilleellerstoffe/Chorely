@@ -26,8 +26,8 @@ class UserQueriesTest_DS {
 
     @BeforeEach
     void setUp() {
-        con = new DatabaseConnection("test");
         // Set up a test database and instantiate UserQueries
+        con = new DatabaseConnection("test");
         queryExecutor = new QueryExecutor(con);
         userQueries = new UserQueries(queryExecutor);
     }
