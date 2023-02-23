@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="coupled register/login methods -&gt; database users">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/bluecatcode_mockito_1_10_19_extended.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/de_svenkubiak_jBCrypt.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/tests/service/QueryExecutorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/microsoft_sqlserver_mssql_jdbc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sazabi_bcrypt4z_scalaz_2_10.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/QueryExecutor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
