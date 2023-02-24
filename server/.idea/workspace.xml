@@ -137,10 +137,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.DatabaseConnection" />
+      <item itemvalue="Application.GroupQueries" />
+      <item itemvalue="Application.StartProgram" />
+      <item itemvalue="JUnit.QueryExecutorTest" />
+      <item itemvalue="JUnit.QueryExecutorTest.executeReadQuery" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Unit_QueryExecutorTest.executeReadQuery" />
-        <item itemvalue="JUnit.Unit_QueryExecutorTest" />
         <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.StartProgram" />
         <item itemvalue="Application.GroupQueries" />
