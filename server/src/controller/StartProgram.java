@@ -1,5 +1,6 @@
 package controller;
 
+import model.RegisteredGroups;
 import model.RegisteredUsers;
 import service.*;
 
@@ -44,9 +45,7 @@ public class StartProgram {
         //link to query executer
         QueryExecutor queryExecutor = new QueryExecutor(databaseConnection);
         //link to model classes
-        UserQueries userQueries = new UserQueries(queryExecutor);
-        GroupQueries groupQueries = new GroupQueries(queryExecutor);
-        ChoreRewardQueries choreRewardQueries = new ChoreRewardQueries(queryExecutor);
-        RegisteredUsers.getInstance().setQueryPerformers(userQueries, groupQueries, choreRewardQueries);
+        RegisteredUsers.getInstance().setQueryPerformers(queryExecutor);
+        RegisteredGroups.getInstance().setQueryPerformers(queryExecutor);
     }
 }

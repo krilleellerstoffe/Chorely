@@ -17,9 +17,15 @@ import java.util.ArrayList;
 public class UserQueries {
 
     private QueryExecutor queryExecutor;
+    GroupQueries groupQueries;
+    LeaderboardQueries leaderboardQueries;
+    ChoreRewardQueries choreRewardQueries;
 
     public UserQueries(QueryExecutor queryExecutor){
+        System.out.println("build UQ");
        this.queryExecutor = queryExecutor;
+        leaderboardQueries = queryExecutor.getLeaderboardQueries();
+        choreRewardQueries = queryExecutor.getChoreRewardQueries();
     }
 
     /**
@@ -60,21 +66,7 @@ public class UserQueries {
             //get users basic info
             loggedInUser = getUserInfo(sqlSafeUsername);
             //get groups user is member of
-            //todo replace with call to GroupQueries once method is written
-            ArrayList<Group> groups = new ArrayList<>();
-            String query = "SELECT * FROM [Group] where group_id = (SELECT group_id from [Member] WHERE user_name = '" + sqlSafeUsername + "');";
-            try {
-                ResultSet resultSet = queryExecutor.executeReadQuery(query);
-                while (resultSet.next()) {
-                    int groupId = resultSet.getInt("group_id");
-                    String groupName = resultSet.getString("group_name");
-                    String groupOwner = resultSet.getString("group_owner");
-                    String groupDesc = resultSet.getString("group_description");
-                    groups.add(new Group(groupId, groupOwner, groupName, groupDesc));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            ArrayList<Group> groups = groupQueries.getGrouplist(sqlSafeUsername);
             loggedInUser.setDBGroups(groups);
         }
         return loggedInUser;
@@ -89,20 +81,26 @@ public class UserQueries {
     public User getUserInfo(String userName) {
         String sqlSafeUsername = makeSqlSafe(userName);
         boolean adult = false;
+        User gotUser = null;
         String query = "SELECT * FROM [User] WHERE user_name = '" + sqlSafeUsername + "';";
         try {
             ResultSet resultSet = queryExecutor.executeReadQuery(query);
             if (resultSet.next()) {
+                gotUser = new User(sqlSafeUsername);
                 int adultInt = resultSet.getInt("is_adult");
-                    if(adultInt == 1) adult = true;
+                    if(adultInt == 1) gotUser.setAdult(true);
+                //get groups user is member of
+                ArrayList<Group> groups = groupQueries.getGrouplist(sqlSafeUsername);
+                gotUser.setDBGroups(groups);
             }
             else {
+                System.out.println("User: " + userName + " not found");
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new User(sqlSafeUsername, adult);
+        return gotUser;
     }
     /**
      * Method to delete a user --no requirement but useful for testing
@@ -178,6 +176,10 @@ public class UserQueries {
     private static String makeSqlSafe(String string) {
         //simple (but not secure) method to clean sql input
         return string.replace("'", "''");
+    }
+
+    public void setGroupQueries(GroupQueries groupQueries) {
+        this.groupQueries = groupQueries;
     }
 }
 

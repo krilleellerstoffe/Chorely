@@ -182,7 +182,7 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
      * and if there is set them to the recyclerview.
      */
     private void updateGroupsList() {
-        //if (updatedGroups != null) {
+        if (updatedGroups != null) {
             synchronized (lockObjectGroupList) {
                 for (int i = 0; i < updatedGroups.size(); i++) {
                     Group group = updatedGroups.get(i);
@@ -190,7 +190,7 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
                         int shownGroupIndex = groupList.indexOf(group);
                         if (!groupList.get(shownGroupIndex).allIsEqual(group)) {
                             groupList.remove(shownGroupIndex);
-                            groupList.add(shownGroupIndex, group);
+                            groupList.add(group);
                             mAdapter.notifyDataSetChanged();
                         }
                     } else {
@@ -208,7 +208,7 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
                         }
                     }
                 }
-            //}
+            }
         }
     }
 }
