@@ -16,7 +16,6 @@ public class GroupQueries {
     ChoreRewardQueries choreRewardQueries;
 
     public GroupQueries(QueryExecutor queryExecutor) {
-        System.out.println("build GQ");
         this.queryExecutor = queryExecutor;
         userQueries = queryExecutor.getUserQueries();
         leaderboardQueries = queryExecutor.getLeaderboardQueries();
@@ -49,7 +48,6 @@ public class GroupQueries {
 
 
     public Group getGroup(int groupID) {
-        //todo return group with all attributes, chores, members and rewards
         Group group = null;
         String query = "SELECT * FROM [Group] WHERE group_id = " + groupID + ";";
         System.out.println(query);
@@ -61,7 +59,6 @@ public class GroupQueries {
                         resultSet.getString("group_name"),
                         resultSet.getString("group_owner"),
                         resultSet.getString("group_description"));
-                System.out.println(group);
                 group.setLeaderboard(leaderboardQueries.getLeaderboard(groupID));
                 group.setMembers(getGroupMembers(groupID).getMembers());
                 group.setChores(choreRewardQueries.getChoreList(groupID));
@@ -81,7 +78,16 @@ public class GroupQueries {
         try {
             ResultSet resultSet = queryExecutor.executeReadQuery(query);
             while (resultSet.next()) {
-                Group group = getGroup(resultSet.getInt("group_id"));
+                int groupID = resultSet.getInt("group_id");
+                Group group = new Group(
+                        groupID,
+                        resultSet.getString("group_name"),
+                        resultSet.getString("group_owner"),
+                        resultSet.getString("group_description"));
+                group.setLeaderboard(leaderboardQueries.getLeaderboard(groupID));
+                group.setMembers(getGroupMembers(groupID).getMembers());
+                group.setChores(choreRewardQueries.getChoreList(groupID));
+                group.setRewards(choreRewardQueries.getRewardList(groupID));
                 groups.add(group);
             }
         } catch (SQLException e) {
@@ -128,7 +134,6 @@ public class GroupQueries {
      * @return the updated group if successful, null if not
      */
     public Group addMember(User user, Group group) {
-        //todo return the group with updated attributes, chores, members and rewards
         int groupID = group.getIntGroupID();
         Group dbGroup = getGroupMembers(groupID);
         //only add member if not already a member
@@ -247,22 +252,30 @@ public class GroupQueries {
         return groupRemoved;
     }
 
-    public void updateMembers(Group updatedGroup) {
-        int id = updatedGroup.getIntGroupID();
-        Group oldGroup = getGroupMembers(id);
-        ArrayList<Transferable> data = new ArrayList<>();
-        data.add(updatedGroup);
-        for (User u : updatedGroup.getUsers()) {
-            if (!oldGroup.getUsers().contains(u) && !Objects.equals(oldGroup.getOwner(), u.getUsername())) {
-                addMember(u, updatedGroup);
+    public boolean updateMembers(Group updatedGroup) {
+        boolean success = false;
+        try {
+            Group oldGroup = getGroupMembers(updatedGroup.getIntGroupID());
+            for (User u: oldGroup.getMembers()) { //remove if not in updated list and not owner
+                if (!updatedGroup.getUsers().contains(u) && !Objects.equals(oldGroup.getOwner(), u.getUsername())) {
+                    removeMember(u, oldGroup);
+                }
             }
+            for (User u : updatedGroup.getMembers()) { //remove if not in old list and not owner
+                if (!oldGroup.getUsers().contains(u) && !Objects.equals(oldGroup.getOwner(), u.getUsername())) {
+                    addMember(u, oldGroup);
+                }
+            }
+            success = true;
+        }catch (Exception e) {
+            success = false;
         }
-
+        return success;
     }
 
     private Group getGroupMembers(int id) {
         Group groupWithMembers = new Group();
-        String query = "SELECT * FROM [Member] WHERE group_id=" + id + ";";
+        String query = "SELECT * FROM [Member] WHERE group_id = " + id + ";";
         System.out.println(query);
         try {
             ResultSet resultSet = queryExecutor.executeReadQuery(query);
@@ -275,5 +288,52 @@ public class GroupQueries {
             e.printStackTrace();
         }
         return groupWithMembers;
+    }
+
+    public boolean updateChores(Group updatedGroup) {
+        boolean success = false;
+        try {
+            ArrayList<Chore> oldChores = choreRewardQueries.getChoreList(updatedGroup.getGroupID());
+            for (Chore chore: oldChores) { //remove if not in updated list
+                if (!updatedGroup.getChores().contains(chore)) {
+                    choreRewardQueries.deleteChore(chore);
+                }
+            }
+            for (Chore chore : updatedGroup.getChores()) {
+                if (!oldChores.contains(chore)) { //add if not in old list
+                    choreRewardQueries.createChore(chore);
+                } else { //update if found
+                    choreRewardQueries.updateChore(chore);
+                }
+            }
+            success = true;
+        }catch (Exception e) {
+            success = false;
+        }
+        return success;
+    }
+
+    public boolean updateRewards(Group updatedGroup) {
+            boolean success = false;
+            try {
+                ArrayList<Reward> oldRewards = choreRewardQueries.getRewardList(updatedGroup.getGroupID());
+                for (Reward reward: oldRewards) { //remove if not in updated list
+                    if (!updatedGroup.getRewards().contains(reward)) {
+                        choreRewardQueries.deleteReward(reward);
+                    }
+                }
+                for (Reward reward : updatedGroup.getRewards()) {
+                    if (!oldRewards.contains(reward)) { //add if not in old list
+                        choreRewardQueries.createReward(reward);
+                    } else { //update if found
+                        choreRewardQueries.updateReward(reward);
+                    }
+                }
+                success = true;
+            }catch (Exception e) {
+                success = false;
+            }
+            return success;
+
     }
 }

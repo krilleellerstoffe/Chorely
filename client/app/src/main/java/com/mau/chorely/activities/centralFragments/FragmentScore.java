@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.transferable.Group;
 import shared.transferable.User;
 
 /**
@@ -30,13 +31,14 @@ public class FragmentScore extends Fragment {
     private static HashMap<User, Integer> scoreMap;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private static CentralActivityRecyclerViewAdapter adapter;
     private static ArrayList<ListItemCentral> itemList = new ArrayList<>();
+    private static CentralActivityRecyclerViewAdapter adapter = new CentralActivityRecyclerViewAdapter(itemList);
 
-    public static Fragment newInstance(HashMap<User, Integer> scoreMap) {
+    public static Fragment newInstance(HashMap<User, Integer> scoreMap, Group selectedGroup) {
         FragmentScore fragment = new FragmentScore();
         Bundle args = new Bundle();
         args.putSerializable("SCORE", scoreMap);
+        args.putSerializable("SELECTED GROUP", selectedGroup);
         fragment.setArguments(args);
         return fragment;
     }

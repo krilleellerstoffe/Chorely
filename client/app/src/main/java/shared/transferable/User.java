@@ -48,15 +48,6 @@ public class User implements Transferable {
         return password;
     }
 
-//    public void removeGroupMembership(GenericID id) {
-//        groups.remove(id);
-//    }
-//
-//    public void addGroupMembership(GenericID newGroup) {
-//        if (!groups.contains(newGroup)) {
-//            groups.add(newGroup);
-//        }
-//    }
     public void removeGroupMembership(Group group) {
         dbGroups.remove(group);
     }
@@ -68,12 +59,12 @@ public class User implements Transferable {
     }
     @Override
     public String toString() {
-        String isAdult = "child";
+        String isAdult = "";
         if(isAdult()) {
-            isAdult = "adult";
+            isAdult = ", adult";
         }
         return "User{" +
-                "username='" + username + "', " + isAdult
+                "username='" + username + "'" + isAdult
                 + "}";
     }
 

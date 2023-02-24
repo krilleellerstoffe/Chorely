@@ -13,12 +13,11 @@ public class Group implements Transferable {
     private String owner;
     private String name;
     private String description;
-    //private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> members = new ArrayList<>(); //change to usernames to prevent looping?
     private int intGroupID;
     private ArrayList<Chore> chores = new ArrayList<>();
     private ArrayList<Reward> rewards = new ArrayList<>();
-    private HashMap<User, Integer> leaderBoard = new HashMap<>();
+    private HashMap<User, Integer> leaderBoard = new HashMap<>(); //change to String?
 
     public Group() {
     }
@@ -172,9 +171,14 @@ public class Group implements Transferable {
         return leaderBoard;
     }
 
+    /**
+     * todo this method is unnecessary remove when all uses accounted for
+     * @param group
+     * @return
+     */
     public boolean allIsEqual(Group group) {
         if (group.getRewards().size() == rewards.size() && group.getChores().size() == chores.size()
-                && group.getUsers().size() == members.size()) {
+                && group.getMembers().size() == members.size()) {
             for (int i = 0; i < chores.size(); i++) {
                 if (!group.getChores().get(i).equals(chores.get(i))) {
                     return false;
@@ -187,7 +191,7 @@ public class Group implements Transferable {
                 }
             }
             for (int i = 0; i < members.size(); i++) {
-                if (!group.getUsers().get(i).equals(members.get(i))) {
+                if (!group.getMembers().get(i).equals(members.get(i))) {
                     return false;
                 }
             }

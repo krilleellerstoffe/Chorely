@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="server now returns all groups at login">
-      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/ManageGroupsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/ManageGroupsActivity.java" afterDir="false" />
+    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="removed duplicate methods">
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/centralFragments/FragmentChores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/centralFragments/FragmentChores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/RegisteredGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RegisteredGroups.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/LeaderboardQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/LeaderboardQueries.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +276,25 @@
       <option name="presentableId" value="LOCAL−00019" />
       <updated>1677229091879</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL−00020" summary="only looks for user info if login success">
+      <created>1677235523886</created>
+      <option name="number" value="LOCAL−00020" />
+      <option name="presentableId" value="LOCAL−00020" />
+      <updated>1677235523886</updated>
+    </task>
+    <task id="LOCAL−00021" summary="chores now save to correct group">
+      <created>1677242707835</created>
+      <option name="number" value="LOCAL−00021" />
+      <option name="presentableId" value="LOCAL−00021" />
+      <updated>1677242707835</updated>
+    </task>
+    <task id="LOCAL−00022" summary="removed duplicate methods">
+      <created>1677248693911</created>
+      <option name="number" value="LOCAL−00022" />
+      <option name="presentableId" value="LOCAL−00022" />
+      <updated>1677248693911</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -316,7 +336,10 @@
     <MESSAGE value="updated user query for getting groups" />
     <MESSAGE value="coupled query classes" />
     <MESSAGE value="server now returns all groups at login" />
-    <option name="LAST_COMMIT_MESSAGE" value="server now returns all groups at login" />
+    <MESSAGE value="only looks for user info if login success" />
+    <MESSAGE value="chores now save to correct group" />
+    <MESSAGE value="removed duplicate methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed duplicate methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
