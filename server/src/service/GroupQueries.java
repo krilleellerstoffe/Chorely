@@ -96,33 +96,38 @@ public class GroupQueries {
         return groups;
     }
 
-    public Group updateGroupName(int id, String name) {
-        Group updatedGroup = null;
+    public boolean updateGroupName(Group oldGroup, Group updatedGroup) {
+        boolean nameUpdated = false;
+        if(!oldGroup.getName().equals(updatedGroup.getName())) {
+            String query = "UPDATE [Group]\nSET group_name = '" + makeSqlSafe(updatedGroup.getName())
+                    + "'\nWHERE group_id = " + oldGroup.getGroupID() + ";";
 
-        String query = "UPDATE [Group]\nSET group_name = '" + makeSqlSafe(name)
-                + "'\nWHERE group_id = " + id + ";";
-
-        try {
-            queryExecutor.executeUpdateQuery(query);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try {
+                queryExecutor.executeUpdateQuery(query);
+                nameUpdated = true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-        return updatedGroup = getGroup(id);
+        return nameUpdated;
     }
 
-    public Group updateGroupDescription(int id, String description) {
-        Group updatedGroup = null;
+    public boolean updateGroupDescription(Group oldGroup, Group updatedGroup) {
+        boolean updatedDesc = false;
+        if(!oldGroup.getDescription().equals(updatedGroup.getDescription())) {
+            String query = "UPDATE [Group]\nSET group_description = '" + makeSqlSafe(updatedGroup.getDescription())
+                    + "'\nWHERE group_id = " + oldGroup.getGroupID() + ";";
 
-        String query = "UPDATE [Group]\nSET group_description = '" + makeSqlSafe(description)
-                + "'\nWHERE group_id = " + id + ";";
-
-        try {
-            queryExecutor.executeUpdateQuery(query);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try {
+                queryExecutor.executeUpdateQuery(query);
+                updatedDesc = true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return updatedGroup = getGroup(id);
+
+
+        return updatedDesc;
     }
 
     /**
@@ -133,27 +138,20 @@ public class GroupQueries {
      * @param group group to be updated
      * @return the updated group if successful, null if not
      */
-    public Group addMember(User user, Group group) {
+    public boolean addMember(User user, Group group) {
         int groupID = group.getIntGroupID();
-        Group dbGroup = getGroupMembers(groupID);
-        //only add member if not already a member
-        if (!dbGroup.getMembers().contains(user)) {
-            boolean success = false;
-            String userName = makeSqlSafe(user.getUsername());
-            String query = "INSERT INTO [Member] VALUES (" + groupID + ", '" + userName + "', 0 , 0);";
-            System.out.println(query);
+        boolean success = false;
+        String userName = makeSqlSafe(user.getUsername());
+        String query = "INSERT INTO [Member] VALUES (" + groupID + ", '" + userName + "', 0 , 0);";
+        System.out.println(query);
             try {
                 queryExecutor.executeUpdateQuery(query);
                 success = true;
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
-            if (success) {
-                dbGroup = group;
-                dbGroup.addMember(user);
-            }
-        }
-        return dbGroup;
+
+        return success;
     }
 
     /**
@@ -168,7 +166,6 @@ public class GroupQueries {
         boolean memberRemoved = false;
         String owner = group.getOwner();
         String query;
-        if (group.getMembers().contains(user)) {
             if (owner.equals(user.getUsername())) {
                 query =          //remove chores
                         "DELETE FROM [Chore] WHERE group_id = '" + group.getGroupID() + "');" +
@@ -182,6 +179,7 @@ public class GroupQueries {
             } else {
                 query = "DELETE FROM [Member] WHERE user_name = '" + user.getUsername() + "' AND group_id = '" + group.getGroupID() + "'";
             }
+        System.out.println(query);
             try {
                 Statement statement = queryExecutor.beginTransaction();
                 statement.executeUpdate(query);
@@ -195,7 +193,7 @@ public class GroupQueries {
                     throwables.printStackTrace();
                 }
             }
-        }
+
         return memberRemoved;
     }
 
@@ -251,25 +249,24 @@ public class GroupQueries {
         return groupRemoved;
     }
 
-    public boolean updateMembers(Group updatedGroup) {
-        boolean success = false;
+    public boolean updateMembers(Group oldGroup, Group updatedGroup) {
+        boolean membersUpdated = false;
         try {
-            Group oldGroup = getGroupMembers(updatedGroup.getIntGroupID());
             for (User u: oldGroup.getMembers()) { //remove if not in updated list and not owner
                 if (!updatedGroup.getUsers().contains(u) && !Objects.equals(oldGroup.getOwner(), u.getUsername())) {
                     removeMember(u, oldGroup);
                 }
             }
-            for (User u : updatedGroup.getMembers()) { //remove if not in old list and not owner
-                if (!oldGroup.getUsers().contains(u) && !Objects.equals(oldGroup.getOwner(), u.getUsername())) {
-                    addMember(u, oldGroup);
+            for (User u : updatedGroup.getMembers()) { //add if not in old list
+                if (!oldGroup.getUsers().contains(u)) {
+                    addMember(u, updatedGroup);
                 }
             }
-            success = true;
+            membersUpdated = true;
         }catch (Exception e) {
-            success = false;
+            membersUpdated = false;
         }
-        return success;
+        return membersUpdated;
     }
 
     private Group getGroupMembers(int id) {
@@ -289,10 +286,10 @@ public class GroupQueries {
         return groupWithMembers;
     }
 
-    public boolean updateChores(Group updatedGroup) {
-        boolean success = false;
+    public boolean updateChores(Group oldGroup, Group updatedGroup) {
+        boolean choresUpdated = false;
         try {
-            ArrayList<Chore> oldChores = choreRewardQueries.getChoreList(updatedGroup.getGroupID());
+            ArrayList<Chore> oldChores = oldGroup.getChores();;
             for (Chore chore: oldChores) { //remove if not in updated list
                 if (!updatedGroup.getChores().contains(chore)) {
                     choreRewardQueries.deleteChore(chore);
@@ -305,17 +302,17 @@ public class GroupQueries {
                     choreRewardQueries.updateChore(chore);
                 }
             }
-            success = true;
+            choresUpdated = true;
         }catch (Exception e) {
-            success = false;
+            choresUpdated = false;
         }
-        return success;
+        return choresUpdated;
     }
 
-    public boolean updateRewards(Group updatedGroup) {
-            boolean success = false;
+    public boolean updateRewards(Group oldGroup, Group updatedGroup) {
+            boolean rewardsUpdated = false;
             try {
-                ArrayList<Reward> oldRewards = choreRewardQueries.getRewardList(updatedGroup.getGroupID());
+                ArrayList<Reward> oldRewards = oldGroup.getRewards();
                 for (Reward reward: oldRewards) { //remove if not in updated list
                     if (!updatedGroup.getRewards().contains(reward)) {
                         choreRewardQueries.deleteReward(reward);
@@ -328,11 +325,11 @@ public class GroupQueries {
                         choreRewardQueries.updateReward(reward);
                     }
                 }
-                success = true;
+                rewardsUpdated = true;
             }catch (Exception e) {
-                success = false;
+                rewardsUpdated = false;
             }
-            return success;
+            return rewardsUpdated;
 
     }
 }

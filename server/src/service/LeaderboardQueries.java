@@ -59,10 +59,10 @@ public class LeaderboardQueries {
         return boardReset;
     }
 
-    public boolean updateLeaderboard(Group updatedGroup) {
-        boolean success = false;
+    public boolean updateLeaderboard(Group oldGroup, Group updatedGroup) {
+        boolean leaderboardUpdated = false;
         try {
-            HashMap<User, Integer> oldLeaderboard = getLeaderboard(updatedGroup.getGroupID());
+            HashMap<User, Integer> oldLeaderboard = oldGroup.getLeaderBoard();
             for (Map.Entry entry : updatedGroup.getLeaderBoard().entrySet()) {
                 User user = (User) entry.getKey();
                 int score = (Integer) entry.getValue();
@@ -70,16 +70,17 @@ public class LeaderboardQueries {
                     updateScore(updatedGroup.getGroupID(), user, score);
                 }
             }
-            success = true;
+            leaderboardUpdated = true;
         }catch (Exception e) {
-            success = false;
+            leaderboardUpdated = false;
         }
-        return success;
+        return leaderboardUpdated;
     }
 
     private boolean updateScore(int groupID, User user, int score) {
         boolean scoreUpdated = false;
         String query = "UPDATE [Member] SET user_score = " + score + " WHERE user_name = '" + user.getUsername() + "' AND group_id = " + groupID;
+        System.out.println(query);
         try {
             queryExecutor.executeUpdateQuery(query);
             scoreUpdated = true;
