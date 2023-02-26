@@ -25,7 +25,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
-        android:maxLength="100"
+        android:maxLength="25"
         android:lines="1"
         android:maxLines="1"
         android:textColor="@color/btnColor"
@@ -61,7 +61,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
         android:gravity="top"
-        android:maxLength="1000"
+        android:maxLength="250"
         android:textColor="@color/btnColor"
         app:layout_constraintTop_toBottomOf="@+id/activity_register_textField_descriptionReward"
         tools:layout_editor_absoluteX="30dp" />
@@ -92,6 +92,7 @@
     <EditText
         android:id="@+id/activity_register_editText_pointsReward"
         android:layout_width="match_parent"
+        android:inputType="number"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
