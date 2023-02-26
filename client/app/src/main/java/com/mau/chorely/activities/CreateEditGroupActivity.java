@@ -258,8 +258,8 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
             //outlaw removing of group owner
             if(selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(selectedGroup.getOwner())) {
                 doToast("Kan ej ta bort grupp-agaren");
-            } else if (selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(Model.getInstance(getFilesDir(),this).getUser().getUsername())){
-                doToast("Kan ej ta bort själv från gruppen");
+//            } else if (selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(Model.getInstance(getFilesDir(),this).getUser().getUsername())){
+//                doToast("Kan ej ta bort själv från gruppen");
             } else {
                 selectedGroup.getUsers().remove(selectedMemberIndex);
             }

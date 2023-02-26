@@ -123,14 +123,14 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
 
     }
 
-    public String logOut() {
+    public void logOut() {
+        Presenter.getInstance().deregisterForUpdates(this);
         Model model = Model.getInstance(getFilesDir(),this);
         Message logOutMsg = new Message(NetCommands.logout, model.getUser(), new ArrayList<Transferable>());
         model.handleTask(logOutMsg);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-        return "logged out";
     }
     /**
      * Interface method to toast activity.

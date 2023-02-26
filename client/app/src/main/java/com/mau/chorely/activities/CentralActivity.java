@@ -83,7 +83,6 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
      */
     public void logOut() {
         Presenter.getInstance().deregisterForUpdates(this);
-
         Model model = Model.getInstance(getFilesDir(),this);
         Message logOutMsg = new Message(NetCommands.logout, model.getUser(), new ArrayList<Transferable>());
         model.handleTask(logOutMsg);
