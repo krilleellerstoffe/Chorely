@@ -205,6 +205,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public void saveGroup() {
         String groupName = ((EditText) findViewById(R.id.edit_group_current_name)).getText().toString();
         String groupDescription = ((EditText) findViewById(R.id.edit_group_edit_description_text)).getText().toString();
+        System.out.println("SAVING GROUP: " + selectedGroup.getGroupID());
         if (!groupName.equals("")) {
             if (!groupDescription.equals("")) {
                 NetCommands command;
@@ -217,9 +218,11 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 ArrayList<Transferable> data = new ArrayList<>();
                 selectedGroup.setName(groupName);
                 selectedGroup.setDescription(groupDescription);
-                selectedGroup.setOwner(model.getUser().getUsername());
-                selectedGroup.addMember(model.getUser());
-                selectedGroup.addToLeaderboard(model.getUser(), 0);
+                if(newGroup) {
+                    selectedGroup.setOwner(model.getUser().getUsername());
+                    selectedGroup.addMember(model.getUser());
+                    selectedGroup.addToLeaderboard(model.getUser(), 0);
+                }
                 System.out.println(selectedGroup.getUsers());
                 if(newGroup) {
                     System.out.println("New group");
@@ -250,7 +253,14 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public boolean removeMemberFromGroup(View view) {
         if (adapter.getCount() > 1) {
             System.out.println(selectedMemberIndex);
-            selectedGroup.getUsers().remove(selectedMemberIndex);
+            //outlaw removing of group owner
+            if(selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(selectedGroup.getOwner())) {
+                doToast("Kan ej ta bort grupp-agaren");
+            } else if (selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(Model.getInstance(getFilesDir(),this).getUser().getUsername())){
+                doToast("Kan ej ta bort själv från gruppen");
+            } else {
+                selectedGroup.getUsers().remove(selectedMemberIndex);
+            }
             adapter.notifyDataSetChanged();
             return true;
         } else {

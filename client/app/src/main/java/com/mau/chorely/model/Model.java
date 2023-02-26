@@ -83,6 +83,7 @@ public class Model {
      */
     public void setSelectedGroup(Group group) {
         storage.setSelectedGroup(group);
+        System.out.println("Selected group: " + group.getGroupID());
     }
 
     /**
@@ -154,17 +155,18 @@ public class Model {
             if (storage.saveOrUpdateGroup(currentGroup)) {
                 message.setCommand(NetCommands.updateGroup);
                 network.sendMessage(message);
+                if (!currentGroup.getUsers().contains(storage.getUser())) {
+                    storage.deleteGroup(currentGroup);
+                    return "Deleted group.";
+                }
                 Presenter.getInstance().updateCurrent();
                 return "Group successfully updated";
             } else {
                 return "Failed to update group.";
             }
             //If not, group is already up to date.
-//        } else {
-//            storage.deleteGroup(currentGroup);
-//            Presenter.getInstance().updateCurrent();
-//            return "Deleted group.";
 //        }
+
     }
 
     /**
