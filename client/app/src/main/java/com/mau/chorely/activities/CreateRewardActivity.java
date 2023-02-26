@@ -7,8 +7,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.mau.chorely.R;
@@ -168,5 +170,10 @@ public class CreateRewardActivity extends AppCompatActivity implements Updatable
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
 
+    }
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        ((EditText) findViewById(R.id.activity_register_editText_pointsReward)).setText(((RadioButton) view).getText());
     }
 }

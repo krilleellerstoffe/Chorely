@@ -25,8 +25,12 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
+        android:maxLength="100"
+        android:lines="1"
+        android:maxLines="1"
         android:textColor="@color/btnColor"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_textField_nameReward" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_textField_nameReward"
+        tools:layout_editor_absoluteX="30dp" />
 
     <View
         android:id="@+id/create_reward_divider1"
@@ -57,8 +61,10 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
         android:gravity="top"
+        android:maxLength="1000"
         android:textColor="@color/btnColor"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_textField_descriptionReward" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_textField_descriptionReward"
+        tools:layout_editor_absoluteX="30dp" />
 
     <View
         android:id="@+id/create_chore_divider2"
@@ -94,6 +100,98 @@
 
 
         />
+    <RadioGroup
+        android:id="@+id/reward_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_background"
+        android:backgroundTint="@color/backgroundLight"
+        android:checkedButton="@id/rewardRB5"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_editText_pointsReward">
+
+        <RadioButton
+            android:id="@+id/rewardRB5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="5"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rewardRB10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="10"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rewardRB20"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="20"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rewardRB50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="50"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rewardRB100"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="100"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rewardRB500"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/backgroundLight"
+            android:onClick="onRadioButtonClicked"
+            android:padding="1dp"
+            android:text="500"
+            android:textColor="@color/btnColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
