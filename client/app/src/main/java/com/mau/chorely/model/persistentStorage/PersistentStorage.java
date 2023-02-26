@@ -53,9 +53,9 @@ public class PersistentStorage {
      * Method to delete selected group.
      */
     public void deleteSelectedGroup() {
-//     if(selectedGroup.exists()) {
-//         selectedGroup.delete();
-//     }
+     if(selectedGroup.exists()) {
+         selectedGroup.delete();
+     }
     }
 
     /**
