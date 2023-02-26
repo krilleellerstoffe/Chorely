@@ -20,11 +20,13 @@
         <activity
             android:name=".activities.CreateRewardActivity"
             android:windowSoftInputMode="adjustResize"
-            android:label="Lägg till belöning"/>
+            android:label="Lägg till belöning"
+            android:parentActivityName=".activities.CentralActivity" />
         <activity
             android:name=".activities.CreateChoreActivity"
             android:windowSoftInputMode="adjustResize"
-            android:label="Lägg till syssla" />
+            android:label="Lägg till syssla"
+            android:parentActivityName=".activities.CentralActivity" />
 
         <activity android:name=".activities.CreateEditGroupActivity"
             android:windowSoftInputMode="adjustResize"

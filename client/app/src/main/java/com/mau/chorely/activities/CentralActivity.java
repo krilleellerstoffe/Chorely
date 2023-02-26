@@ -103,6 +103,8 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
         data.add(model.getSelectedGroup());
         Message deleteGroupMsg = new Message(NetCommands.deleteGroup, model.getUser(), data);
         model.handleTask(deleteGroupMsg);
+        selectedGroup = null;
+        startActivity(new Intent(this, ManageGroupsActivity.class));
         finish();
     }
 
