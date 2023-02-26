@@ -98,4 +98,8 @@ public class RegisteredUsers {
         User loggedInUser = userQueries.loginUser(user.getUsername(), user.getPassword());
         return loggedInUser;
     }
+
+    public User getBasicUserInfo(User u) {
+        return userQueries.getBasicUserInfo(u);
+    }
 }

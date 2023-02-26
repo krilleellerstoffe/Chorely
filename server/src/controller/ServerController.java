@@ -303,8 +303,8 @@ public class ServerController {
             ArrayList<User> members = group.getUsers();
 
             for (User u : members) {
-                User userFromFile = registeredUsers.getUserFromFile(u);
-                userFromFile.addGroupMembership(registeredGroup);
+                User basicUser = registeredUsers.getBasicUserInfo(u);
+                basicUser.addGroupMembership(registeredGroup);
             }
             ArrayList<Transferable> data = new ArrayList<>();
             data.add(registeredGroup);
