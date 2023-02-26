@@ -226,15 +226,14 @@ public class GroupQueries {
     public boolean removeGroup(Group group) {
         boolean groupRemoved = false;
         String query =          //remove chores
-                "DELETE FROM [Chore] WHERE group_id = '" + group.getGroupID() + "');" +
+                "DELETE FROM [Chore] WHERE group_id = " + group.getGroupID() + ";" +
                         //remove rewards
-                        "DELETE FROM [Reward] WHERE group_id = '" + group.getGroupID() + "');" +
+                        "DELETE FROM [Reward] WHERE group_id = " + group.getGroupID() + ";" +
                         //remove members
-                        "DELETE FROM [Member] WHERE group_id = '" + group.getGroupID() + "');" +
+                        "DELETE FROM [Member] WHERE group_id = " + group.getGroupID() + ";" +
                         //finally, remove group
-                        "DELETE FROM [Group] WHERE group_id = '" + group.getGroupID() + "';";
-
-
+                        "DELETE FROM [Group] WHERE group_id = " + group.getGroupID() + ";";
+        System.out.println(query);
         try {
             Statement statement = queryExecutor.beginTransaction();
             statement.executeUpdate(query);

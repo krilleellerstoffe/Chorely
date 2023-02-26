@@ -61,6 +61,7 @@ public class UserQueries {
         User loggedInUser = null;
         if (checkPassword(userName, password)) {
             loggedInUser = getUserInfo(userName);
+            loggedInUser.setPassword(password);
         }
         return loggedInUser;
     }
@@ -172,6 +173,27 @@ public class UserQueries {
 
     public void setGroupQueries(GroupQueries groupQueries) {
         this.groupQueries = groupQueries;
+    }
+
+    public User getBasicUserInfo(User u) {
+        String sqlSafeUsername = makeSqlSafe(u.getUsername());
+        User gotUser = null;
+        String query = "SELECT * FROM [User] WHERE user_name = '" + sqlSafeUsername + "';";
+        try {
+            ResultSet resultSet = queryExecutor.executeReadQuery(query);
+            if (resultSet.next()) {
+                gotUser = new User(sqlSafeUsername);
+                int adultInt = resultSet.getInt("is_adult");
+                if(adultInt == 1) gotUser.setAdult(true);
+            }
+            else {
+                System.out.println("User: " + sqlSafeUsername + " not found");
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gotUser;
     }
 }
 

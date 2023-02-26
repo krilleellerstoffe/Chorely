@@ -107,4 +107,8 @@ public class User implements Transferable {
     public void setAdult(boolean isAdult) {
         this.adult = isAdult;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
