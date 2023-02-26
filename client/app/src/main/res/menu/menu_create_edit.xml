@@ -10,11 +10,4 @@
         app:showAsAction="always"
         />
 
-
-    <item
-        android:id="@+id/edit_group_menu_deleteGroup"
-        android:title="@string/deleteGroup"
-        android:icon="@drawable/save_icon_white"
-        app:showAsAction="never"
-        />
 </menu>

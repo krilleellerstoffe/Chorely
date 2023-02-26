@@ -60,7 +60,7 @@ public class UserQueries {
     public User loginUser(String userName, String password) {
         User loggedInUser = null;
         if (checkPassword(userName, password)) {
-            loggedInUser = getUserInfo(userName);
+            loggedInUser = new User(userName);
             loggedInUser.setPassword(password);
         }
         return loggedInUser;

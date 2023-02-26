@@ -52,21 +52,22 @@ public class RegisteredGroups {
 
     /**
      * Updates the directory with the new updated group.
-     * @param group is the new updated version of the Group object to be saved to file.
+     * @param updatedGroup is the new updated version of the Group object to be saved to file.
      */
-    public synchronized void updateGroup(Group group) {
+    public synchronized void updateGroup(Group updatedGroup) {
+        Group oldGroup = groupQueries.getGroup(updatedGroup.getGroupID());
         //update name
-        groupQueries.updateGroupName(group.getIntGroupID(), group.getName());
+        groupQueries.updateGroupName(oldGroup, updatedGroup);
         //update description
-        groupQueries.updateGroupDescription(group.getIntGroupID(), group.getDescription());
+        groupQueries.updateGroupDescription(oldGroup, updatedGroup);
         //update members
-        groupQueries.updateMembers(group);
+        groupQueries.updateMembers(oldGroup, updatedGroup);
         //update chores
-        groupQueries.updateChores(group);
+        groupQueries.updateChores(oldGroup, updatedGroup);
         //update rewards
-        groupQueries.updateRewards(group);
+        groupQueries.updateRewards(oldGroup, updatedGroup);
         //update leaderboard
-        leaderboardQueries.updateLeaderboard(group);
+        leaderboardQueries.updateLeaderboard(oldGroup, updatedGroup);
     }
 
     /**
@@ -82,13 +83,5 @@ public class RegisteredGroups {
         this.groupQueries = queryExecutor.getGroupQueries();
         this.choreRewardQueries = queryExecutor.getChoreRewardQueries();
         this.leaderboardQueries = queryExecutor.getLeaderboardQueries();
-    }
-
-    public boolean removeMember(User user, Group group) {
-        return groupQueries.removeMember(user, group);
-    }
-
-    public Group addMember(User userToAdd, Group groupToAlter) {
-        return groupQueries.addMember(userToAdd, groupToAlter);
     }
 }
