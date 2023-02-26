@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,12 +40,14 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
     ArrayList<Group> groupList = new ArrayList<>();
     ArrayList<Group> updatedGroups = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_groups);
         buildRecyclerView();
         updatedGroups = Model.getInstance(getFilesDir(),this).getGroups();
+        ((TextView) findViewById(R.id.manage_groups_textViewUserName)).setText("  Inloggad som: " + Model.getInstance(getFilesDir(),this).getUser().getUsername());
         updateGroupsList();
     }
 
