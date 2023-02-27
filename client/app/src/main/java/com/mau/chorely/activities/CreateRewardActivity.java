@@ -3,10 +3,14 @@ package com.mau.chorely.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.mau.chorely.R;
@@ -15,6 +19,7 @@ import com.mau.chorely.model.Model;
 
 import java.util.ArrayList;
 
+import shared.transferable.Group;
 import shared.transferable.Message;
 import shared.transferable.NetCommands;
 import shared.transferable.Reward;
@@ -28,7 +33,7 @@ import shared.transferable.Transferable;
  * v. 1.0 2020-04-28
  */
 public class CreateRewardActivity extends AppCompatActivity implements UpdatableActivity {
-
+    Group selectedGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,7 @@ public class CreateRewardActivity extends AppCompatActivity implements Updatable
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
+            selectedGroup = (Group) bundle.get("SELECTED_GROUP");
             Reward reward = (Reward) bundle.get("reward");
             setTitle("Redigera belöning");
             ((EditText) (findViewById(R.id.activity_register_editText_nameReward))).setText(reward.getName());
@@ -71,6 +77,7 @@ public class CreateRewardActivity extends AppCompatActivity implements Updatable
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        hideKeyboard();
         int id = item.getItemId();
         if (id == R.id.create_reward_menu_saveChanges) {
 
@@ -86,7 +93,7 @@ public class CreateRewardActivity extends AppCompatActivity implements Updatable
      * Creates a new Reward-object from the user-input
      */
     public Reward createNewReward(String name, String desc, int points) {
-        Reward reward = new Reward(name, points, desc);
+        Reward reward = new Reward(name, points, desc, Model.getInstance(getFilesDir(),this).getSelectedGroup().getGroupID());
         return reward;
     }
 
@@ -156,5 +163,17 @@ public class CreateRewardActivity extends AppCompatActivity implements Updatable
         });
 
     }
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
+    }
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        ((EditText) findViewById(R.id.activity_register_editText_pointsReward)).setText(((RadioButton) view).getText());
+    }
 }

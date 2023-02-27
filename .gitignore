@@ -17,6 +17,8 @@
 .idea/**/contentModel.xml
 
 # Sensitive or high-churn files
+server/src/service/ServerAccess.java
+server/files/*
 .idea/**/dataSources/
 .idea/**/dataSources.ids
 .idea/**/dataSources.local.xml
@@ -33,11 +35,12 @@
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
-# *.ipr
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+*.ipr
+
 
 # CMake
 cmake-build-*/
@@ -50,6 +53,7 @@ cmake-build-*/
 
 # IntelliJ
 out/
+server/files/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -75,10 +79,10 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
 
 # Sonarlint plugin
 .idea/**/sonarlint/
@@ -298,10 +302,16 @@ obj/
 
 server/logs/*.log.*
 server/logs/*.log
-client/.idea/deploymentTargetDropDown.xml
+client/app/.idea/workspace.xml
+.idea/Chorely.iml
+server/.idea/workspace.xml
+server/.idea/server.iml
+client/app/.idea/misc.xml
+client/app/.idea/gradle.xml
+client/app/.idea/vcs.xml
 client/.idea/deploymentTargetDropDown.xml
 client/app/.idea/workspace.xml
 client/.idea/deploymentTargetDropDown.xml
 server/.idea/compiler.xml
 server/.idea/libraries/bluecatcode_junit_4_10_extended.xml
-server/server.iml
+

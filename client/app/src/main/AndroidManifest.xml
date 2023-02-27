@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.utils.ScoreboardActivity" />
         <activity
@@ -18,14 +19,15 @@
             android:parentActivityName=".activities.ManageGroupsActivity" />
         <activity
             android:name=".activities.CreateRewardActivity"
-            android:label="Lägg till belöning"
-            android:parentActivityName=".activities.CentralActivity" />
+            android:windowSoftInputMode="adjustResize"
+            android:label="Lägg till belöning" />
         <activity
             android:name=".activities.CreateChoreActivity"
-            android:label="Lägg till syssla"
-            android:parentActivityName=".activities.CentralActivity" />
+            android:windowSoftInputMode="adjustResize"
+            android:label="Lägg till syssla" />
 
         <activity android:name=".activities.CreateEditGroupActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="Lägg till grupp"
           />
         <activity
@@ -36,10 +38,12 @@
             android:label="@string/label_groups" />
         <activity
             android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/register_title"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity android:name=".activities.LogInActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="Logga in"
             android:parentActivityName=".activities.MainActivity" />
 

@@ -3,11 +3,17 @@ package com.mau.chorely.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -56,6 +62,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         Presenter.getInstance().register(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            //returns an empty group object
             selectedGroup = (Group) bundle.get("SELECTED_GROUP");
         }
         initActivity();
@@ -160,8 +167,10 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
      * Method to put the activity in different initial states depending on if the user was sent here
      * by selecting a group to edit, or by creating a new group.
      */
+    @SuppressLint("ResourceAsColor")
     private void initActivity() {
         if (selectedGroup != null) {
+            //update an existing group
             setTitle("Redigera grupp");
             EditText groupName = (EditText) findViewById(R.id.edit_group_current_name);
             groupName.setText(selectedGroup.getName());
@@ -174,9 +183,17 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 initListView();
             }
         } else {
+            //register a new group
             selectedGroup = new Group();
             newGroup = true;
-            selectedGroup.addUser(Model.getInstance(getFilesDir(),this).getUser());
+            selectedGroup.setOwner(Model.getInstance(getFilesDir(),this).getUser().getUsername());
+            selectedGroup.addMember(Model.getInstance(getFilesDir(),this).getUser());
+            findViewById(R.id.edit_group_textViewAddMembers).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_memberSearchText).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_searchBarMembers).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_searchMemberButton).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_addMemberButton).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_memberSearchCancelButton).setVisibility(View.GONE);
             initListView();
         }
     }
@@ -188,6 +205,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public void saveGroup() {
         String groupName = ((EditText) findViewById(R.id.edit_group_current_name)).getText().toString();
         String groupDescription = ((EditText) findViewById(R.id.edit_group_edit_description_text)).getText().toString();
+        System.out.println("SAVING GROUP: " + selectedGroup.getGroupID());
         if (!groupName.equals("")) {
             if (!groupDescription.equals("")) {
                 NetCommands command;
@@ -200,11 +218,25 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 ArrayList<Transferable> data = new ArrayList<>();
                 selectedGroup.setName(groupName);
                 selectedGroup.setDescription(groupDescription);
+                if(newGroup) {
+                    selectedGroup.setOwner(model.getUser().getUsername());
+                    selectedGroup.addMember(model.getUser());
+                    selectedGroup.addToLeaderboard(model.getUser(), 0);
+                }
+                System.out.println(selectedGroup.getUsers());
+                if(newGroup) {
+                    System.out.println("New group");
+                } else {
+                    System.out.println("Users in updated group");
+                }
+
                 data.add(selectedGroup);
                 Message message = new Message(command, model.getUser(), data);
                 model.handleTask(message);
                 newGroup = false;
+                //only make null if returning to group screen?
                 selectedGroup = null;
+                startActivity(new Intent(this, ManageGroupsActivity.class));
                 finish();
             } else {
                 doToast("Fyll i beskrivning till din grupp.");
@@ -223,7 +255,14 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public boolean removeMemberFromGroup(View view) {
         if (adapter.getCount() > 1) {
             System.out.println(selectedMemberIndex);
-            selectedGroup.getUsers().remove(selectedMemberIndex);
+            //outlaw removing of group owner
+            if(selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(selectedGroup.getOwner())) {
+                doToast("Kan ej ta bort grupp-agaren");
+//            } else if (selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(Model.getInstance(getFilesDir(),this).getUser().getUsername())){
+//                doToast("Kan ej ta bort själv från gruppen");
+            } else {
+                selectedGroup.getUsers().remove(selectedMemberIndex);
+            }
             adapter.notifyDataSetChanged();
             return true;
         } else {
@@ -242,9 +281,10 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
      * @return
      */
     public String searchForMember(View view) {
+        hideKeyboard();
         String searchString = ((EditText) findViewById(R.id.edit_group_memberSearchText)).getText().toString();
         if (!searchString.equals("")) {
-            if (!selectedGroup.getUsers().contains(new User(searchString, ""))) {
+            if (!selectedGroup.getUsers().contains(new User(searchString))) {
                 findViewById(R.id.edit_group_searchMemberButton).setVisibility(View.INVISIBLE);
                 Model model = Model.getInstance(getFilesDir(),this);
                 User user = new User(searchString, "");
@@ -287,7 +327,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
      * @param view
      */
     public void addMember(View view) {
-        selectedGroup.addUser(lastSearchedUser);
+        selectedGroup.addMember(lastSearchedUser);
         adapter.notifyDataSetChanged();
         memberAddedNotification();     //@Author Johan, Måns
         cancelFoundMember(null);
@@ -317,5 +357,13 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         Message message = new Message(netCommands, model.getUser(), data);
         model.handleTask(message);
         return message;
+    }
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 }

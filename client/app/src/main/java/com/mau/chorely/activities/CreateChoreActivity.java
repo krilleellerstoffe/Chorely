@@ -3,10 +3,14 @@ package com.mau.chorely.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.mau.chorely.R;
@@ -29,11 +33,12 @@ import shared.transferable.Transferable;
  */
 public class CreateChoreActivity extends AppCompatActivity implements UpdatableActivity {
 
-
+    Group selectedGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_chore);
+
     }
 
     /**
@@ -46,6 +51,7 @@ public class CreateChoreActivity extends AppCompatActivity implements UpdatableA
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
+            selectedGroup = (Group) bundle.get("SELECTED_GROUP");
             Chore chore = (Chore) bundle.get("chore");
             setTitle("Redigera syssla");
             ((EditText) (findViewById(R.id.activity_register_editText_nameChore))).setText(chore.getName());
@@ -76,6 +82,7 @@ public class CreateChoreActivity extends AppCompatActivity implements UpdatableA
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        hideKeyboard();
         int id = item.getItemId();
         if (id == R.id.create_chore_menu_saveChanges) {
             if (controlTextFields()) {
@@ -89,7 +96,7 @@ public class CreateChoreActivity extends AppCompatActivity implements UpdatableA
      * Creates a new Chore-object from the user-input
      */
     public Chore createNewChore(String name, String desc, int points) {
-        Chore chore = new Chore(name, points, desc);
+        Chore chore = new Chore(name, points, desc, Model.getInstance(getFilesDir(),this).getSelectedGroup().getGroupID());
         return chore;
     }
 
@@ -106,6 +113,7 @@ public class CreateChoreActivity extends AppCompatActivity implements UpdatableA
         model.handleTask(message);
         return true;
     }
+
 
     /**
      * The method checks that no textfields are empty and that the points-filed contains
@@ -157,5 +165,18 @@ public class CreateChoreActivity extends AppCompatActivity implements UpdatableA
         });
 
     }
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        ((EditText) findViewById(R.id.activity_register_editText_setPointsChore)).setText(((RadioButton) view).getText());
+    }
 }

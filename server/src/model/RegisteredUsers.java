@@ -1,9 +1,8 @@
 package model;
 
+import service.*;
 import shared.transferable.User;
 
-import java.io.*;
-import java.util.logging.Logger;
 
 /**
  * RegisteredUser handles all registered users by reading and writing each User object to a
@@ -12,11 +11,13 @@ import java.util.logging.Logger;
  * @author Theresa Dannberg, Fredrik Jeppsson
  */
 public class RegisteredUsers {
-    private final static Logger messagesLogger = Logger.getLogger("messages");
-    private final static String filePath = "files/users/";
     private final static RegisteredUsers instance = new RegisteredUsers();
+    UserQueries userQueries;
+    GroupQueries groupQueries;
+    ChoreRewardQueries choreRewardQueries;
+    LeaderboardQueries leaderboardQueries;
 
-    private RegisteredUsers() {
+    public RegisteredUsers() {
     }
 
     /**
@@ -30,19 +31,14 @@ public class RegisteredUsers {
      * Saves a User object to its own file on the server.
      *
      * @param user the User object to be saved to file
-     * @return
+     * @return true upon success
      */
-    public synchronized int writeUserToFile(User user) {
-        String filename = String.format("%s%s.dat", filePath, user.getUsername());
-        try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)))) {
-            oos.writeObject(user);
-            oos.flush();
-            messagesLogger.info("wrote user to file " + filename);
-            return 1;
-        } catch (IOException e) {
-            messagesLogger.info("writeUserToFile(user): " + e.getMessage());
-            return 0;
+    public synchronized boolean writeUserToFile(User user) {
+        boolean success = false;
+        if (user != null && userQueries.registerUser(user.getUsername(), user.getPassword(), user.isAdult())) {
+            success = true;
         }
+        return success;
     }
 
     /**
@@ -52,44 +48,19 @@ public class RegisteredUsers {
      * @return the requested User-object
      */
     public synchronized User getUserFromFile(User userToFind) {
-        String filename = String.format("%s%s.dat", filePath, userToFind.getUsername());
-        User foundUser = null;
-
-        try (ObjectInputStream ois = new ObjectInputStream((new BufferedInputStream(new FileInputStream(filename))))) {
-            foundUser = (User) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            messagesLogger.info("getUserFromFile(userToFind): " + e.getMessage());
-            return null;
+        User gotUser = null;
+        if (userToFind!=null) {
+            gotUser = userQueries.getUserInfo(userToFind.getUsername());
         }
+        return gotUser;
 
-        return foundUser;
     }
-
-    /**
-     * Updates the directory with the new updated user.
-     *
-     * @param user is the new updated version of the User object to be saved to file.
-     */
-    public synchronized void updateUser(User user) {
-        File file = new File(filePath + user.getUsername() + ".dat");
-        if (file.exists()) {
-            file.delete();
+    public synchronized boolean checkPassword(String username, String password) {
+        boolean verified = false;
+        if (username!=null && password!=null) {
+            verified = userQueries.checkPassword(username, password);
         }
-        writeUserToFile(user);
-    }
-
-    /**
-     * Compares the username of a new user to already registered users.
-     *
-     * @param newUsername the requested username of a new user.
-     * @return true if username is available and false if it already taken.
-     */
-    public synchronized boolean userNameAvailable(String newUsername) {
-        File file = new File(filePath + newUsername + ".dat");
-        if (file.exists()) {
-            return false;
-        }
-        return true;
+        return verified;
     }
 
     /**
@@ -99,12 +70,36 @@ public class RegisteredUsers {
      * @return the requested user if it exists, otherwise return null
      */
     public synchronized User findUser(User dummyUser) {
-        User foundUser = null;
-        if (userNameAvailable(dummyUser.getUsername())) {
-            return null;
-        } else {
-            foundUser = getUserFromFile(dummyUser);
+        return getUserFromFile(dummyUser);
+    }
+
+    /**
+     * Compares the username of a new user to already registered users.
+     * todo method unnecessary as registerUser need to do the same thing?
+     * @param newUsername the requested username of a new user.
+     * @return true if username is available and false if it is already taken.
+     */
+    public boolean userNameAvailable(String newUsername) {
+        boolean nameAvailable = false;
+        if (newUsername != null && userQueries.getUserInfo(newUsername) == null) {
+            nameAvailable = true;
         }
-        return foundUser;
+        return nameAvailable;
+    }
+
+    public void setQueryPerformers(QueryExecutor queryExecutor) {
+        this.userQueries = queryExecutor.getUserQueries();
+        this.groupQueries = queryExecutor.getGroupQueries();
+        this.choreRewardQueries = queryExecutor.getChoreRewardQueries();
+        this.leaderboardQueries = queryExecutor.getLeaderboardQueries();
+    }
+
+    public User loginUser(User user) {
+        User loggedInUser = userQueries.loginUser(user.getUsername(), user.getPassword());
+        return loggedInUser;
+    }
+
+    public User getBasicUserInfo(User u) {
+        return userQueries.getBasicUserInfo(u);
     }
 }

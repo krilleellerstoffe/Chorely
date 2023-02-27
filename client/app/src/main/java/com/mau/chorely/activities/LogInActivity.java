@@ -1,9 +1,11 @@
 package com.mau.chorely.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,6 +62,7 @@ public class LogInActivity extends AppCompatActivity implements UpdatableActivit
      * @param view Button clicked.
      */
     public void logIn(View view) {
+        hideKeyboard();
         EditText user = findViewById(R.id.username);
         EditText pass = findViewById(R.id.password);
         String username = user.getText().toString();
@@ -67,13 +70,11 @@ public class LogInActivity extends AppCompatActivity implements UpdatableActivit
 
         if(!username.equals("") && !password.equals("")) {
             User userToLogIn = new User(username, password);
-
-            Message logInMsg = new Message(NetCommands.login, userToLogIn, new ArrayList<Transferable>());
+            Message logInMsg = new Message(NetCommands.login, userToLogIn);
             Model.getInstance(getFilesDir(),this).handleTask(logInMsg);
             user.setVisibility(View.INVISIBLE);
             pass.setVisibility(View.INVISIBLE);
-            Button buttonRegister = findViewById(R.id.logIn);
-            buttonRegister.setVisibility(Button.INVISIBLE);
+            findViewById(R.id.logIn).setVisibility(View.INVISIBLE);
             gifImageViewWorking.setVisibility(View.VISIBLE);
         } else {
             doToast("Du måste fylla i användarnamn och lösenord");
@@ -119,10 +120,18 @@ public class LogInActivity extends AppCompatActivity implements UpdatableActivit
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
                 toast.show();
             }
         });
+    }
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 }
 

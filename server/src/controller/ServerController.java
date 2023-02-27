@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
 
 /**
  * ServerController handles the overall logic on the server side.
@@ -18,7 +17,6 @@ import java.util.logging.Logger;
  * @author Angelica Asplund, Emma Svensson, Theresa Dannberg, Fredrik Jeppsson
  */
 public class ServerController {
-    private final static Logger messagesLogger = Logger.getLogger("messages");
     private final RegisteredUsers registeredUsers = RegisteredUsers.getInstance();
     private final RegisteredGroups registeredGroups = RegisteredGroups.getInstance();
     private final LinkedBlockingQueue<Message> clientTaskBuffer = new LinkedBlockingQueue<>();
@@ -68,12 +66,11 @@ public class ServerController {
     public void sendSavedGroups(User user) {
         User userFromFile = registeredUsers.getUserFromFile(user);
         if (userFromFile != null) {
-            if (userFromFile.getGroups() != null) {
-                List<GenericID> groupMemberships = userFromFile.getGroups();
-                for (GenericID id : groupMemberships) {
-                    Group group = registeredGroups.getGroupByID(id);
+            if (userFromFile.getDbGroups() != null) {
+                List<Group> groupMemberships = userFromFile.getDbGroups();
+                for (Group gr : groupMemberships) {
                     ArrayList<Transferable> data = new ArrayList<>();
-                    data.add(group);
+                    data.add(gr);
                     Message message = new Message(NetCommands.updateGroup, user, data);
                     sendReply(message);
                 }
@@ -123,7 +120,7 @@ public class ServerController {
      */
     public NetCommands handleClientTask(Message msg) {
         NetCommands command = msg.getCommand();
-
+        System.out.println("incoming: " + msg);
         switch (command) {
             case registerNewGroup:
                 registerNewGroup(msg);
@@ -234,13 +231,6 @@ public class ServerController {
         Group groupFromMessage = (Group) data.get(0);
         Group group = new Group(groupFromMessage);   // defensive copy.
         List<User> users = group.getUsers();
-        GenericID id = group.getGroupID();
-
-        for (User user : users) {
-            User userFromFile = registeredUsers.getUserFromFile(user);
-            userFromFile.removeGroupMembership(id);
-            registeredUsers.updateUser(userFromFile);
-        }
 
         registeredGroups.deleteGroup(group);
 
@@ -271,33 +261,32 @@ public class ServerController {
     /**
      * Registers a new group to the server and updates all the members
      * of that group with the new group membership
-     *
      * @param request the Message object containing the group with all
      *                the members to be added.
      */
-    public void registerNewGroup(Message request) {
+    public Group registerNewGroup(Message request) {
         Message reply = null;
         Group group = (Group) request.getData().get(0);
-
-        if (registeredGroups.groupIdAvailable(group.getGroupID())) {
-            registeredGroups.updateGroup(group);
+        Group registeredGroup = registeredGroups.writeGroupToFile(group);
+        if (registeredGroup!=null) {
             ArrayList<User> members = group.getUsers();
-            GenericID groupID = group.getGroupID();
+
             for (User u : members) {
-                User userFromFile = registeredUsers.getUserFromFile(u);
-                userFromFile.addGroupMembership(groupID);
-                registeredUsers.updateUser(userFromFile);
+                User basicUser = registeredUsers.getBasicUserInfo(u);
+                basicUser.addGroupMembership(registeredGroup);
             }
-            reply = new Message(NetCommands.newGroupOk, request.getUser());
+            ArrayList<Transferable> data = new ArrayList<>();
+            data.add(registeredGroup);
+            reply = new Message(NetCommands.newGroupOk, request.getUser(), data);
             sendReply(reply);
-            notifyGroupChanges(group);
+            notifyGroupChanges(registeredGroup);
         } else {
             ErrorMessage errorMessage = new ErrorMessage("Registrering av grupp misslyckades.");
             reply = new Message(NetCommands.newGroupDenied, request.getUser(), errorMessage);
             sendReply(reply);
         }
+        return registeredGroup;
     }
-
     /**
      * Updates a registered group with new change and notifies all the
      * members of that group.
@@ -306,49 +295,8 @@ public class ServerController {
      */
     public void updateGroup(Message request) {
         Group updatedGroup = (Group) request.getData().get(0);
-        updateUsersInGroup(updatedGroup);
         registeredGroups.updateGroup(updatedGroup);
         notifyGroupChanges(updatedGroup);
-    }
-
-
-    /**
-     * Updates the group membership of the removed and/or added users
-     *
-     * @param group is the group that contains changes in members
-     */
-    private void updateUsersInGroup(Group group) {
-        removeUsers(group);
-
-        ArrayList<User> members = group.getUsers();
-        GenericID id = group.getGroupID();
-        for (User u : members) {
-            User userFromFile = registeredUsers.getUserFromFile(u);
-            userFromFile.addGroupMembership(id);
-            registeredUsers.updateUser(userFromFile);
-        }
-    }
-
-    /**
-     * Updates the group membership of the users removed from a group
-     * and notifies the changes to the user.
-     *
-     * @param newGroup the group that potentially has a change in group membership.
-     */
-    private void removeUsers(Group newGroup) {
-        GenericID id = newGroup.getGroupID();
-        Group oldGroup = registeredGroups.getGroupFromFile(id);
-        ArrayList<Transferable> data = new ArrayList<>();
-        data.add(newGroup);
-
-        for (User u : oldGroup.getUsers()) {
-            if (!newGroup.getUsers().contains(u)) {
-                u.removeGroupMembership(id);
-                registeredUsers.updateUser(u);
-                Message message = new Message(NetCommands.updateGroup, u, data);
-                sendReply(message);
-            }
-        }
     }
 
     /**
@@ -361,7 +309,6 @@ public class ServerController {
             while (true) {
                 try {
                     Message message = clientTaskBuffer.take();
-                    System.out.println(message);
                     handleClientTask(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

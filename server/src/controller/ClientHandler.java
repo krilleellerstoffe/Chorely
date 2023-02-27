@@ -69,7 +69,7 @@ public class ClientHandler {
      * @param message the registration message received from the client.
      * @return true if registration is successful.
      */
-    private boolean registerUser(Message message) {
+    public boolean registerUser(Message message) {
         User user = message.getUser();
         Message reply;
         boolean success = false;
@@ -92,22 +92,20 @@ public class ClientHandler {
      * @param message the login message received from the client.
      * @return true if login is successful.
      */
-    private boolean loginUser(Message message) {
+    public boolean loginUser(Message message) {
         boolean success = false;
         User user = message.getUser();
-        User userFromFile = registeredUsers.getUserFromFile(user);
+        User loggedInUser = registeredUsers.loginUser(user);
         Message reply;
 
-        if (userFromFile == null) {  // userFromFile == null when the username isn't found as a registered user.
-            reply = new Message(NetCommands.loginDenied, user, new ErrorMessage("Fel användarnamn eller lösenord, försök igen!"));
-        } else if (user.compareUsernamePassword(userFromFile)) {
-            reply = new Message(NetCommands.loginOk, user);
-            controller.addOnlineClient(user, ClientHandler.this);
-            success = true;
-        } else {
+        if (loggedInUser == null) {  // null when the username/password fail
             reply = new Message(NetCommands.loginDenied, user, new ErrorMessage("Fel användarnamn eller lösenord, försök igen!"));
         }
-
+          else {
+            reply = new Message(NetCommands.loginOk, loggedInUser);
+            controller.addOnlineClient(loggedInUser, ClientHandler.this);
+            success = true;
+        }
         outgoingMessages.add(reply);
         return success;
     }
