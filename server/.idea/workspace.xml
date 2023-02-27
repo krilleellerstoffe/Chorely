@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="shared.iml">
+    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="bugfix - deleting group members now removes group from their list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ServerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/RegisteredGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RegisteredGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/GroupQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/GroupQueries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/LeaderboardQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/LeaderboardQueries.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -307,7 +303,13 @@
       <option name="presentableId" value="LOCAL−00024" />
       <updated>1677436536143</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL−00025" summary="bugfix - deleting group members now removes group from their list">
+      <created>1677446825407</created>
+      <option name="number" value="LOCAL−00025" />
+      <option name="presentableId" value="LOCAL−00025" />
+      <updated>1677446825407</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -331,7 +333,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="unittests framework" />
@@ -355,7 +356,8 @@
     <MESSAGE value="removed duplicate methods" />
     <MESSAGE value="leaderboard now updates" />
     <MESSAGE value="shared.iml" />
-    <option name="LAST_COMMIT_MESSAGE" value="shared.iml" />
+    <MESSAGE value="bugfix - deleting group members now removes group from their list" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix - deleting group members now removes group from their list" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
