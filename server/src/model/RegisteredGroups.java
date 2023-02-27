@@ -67,6 +67,7 @@ public class RegisteredGroups {
         //update rewards
         groupQueries.updateRewards(oldGroup, updatedGroup);
         //update leaderboard
+        //todo just get new leaderboard instead of bothering about checking for updates
         leaderboardQueries.updateLeaderboard(oldGroup, updatedGroup);
     }
 
