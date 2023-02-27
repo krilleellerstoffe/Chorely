@@ -44,7 +44,7 @@ class ChoreRewardQueriesTest {
         assertTrue(queryExecutor.executeReadQuery(query).next());
         assertEquals("Clean room", queryExecutor.executeReadQuery(query).getString("chore_name"));
         assertEquals("Clean the bedroom and vacuum the floor", queryExecutor.executeReadQuery(query).getString("chore_description"));
-        assertEquals(10, Integer.parseInt(queryExecutor.executeReadQuery().getInt("chore_points")));
+        assertEquals(10, queryExecutor.executeReadQuery(query).getInt("chore_points"));
     }
 
     @Test

@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="bugfix - deleting group members now removes group from their list">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-02-20_11_46__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-02-20_11_46__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/service/ChoreRewardQueriesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/ChoreRewardQueriesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest_DS_Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/service/UserQueriesTest_DS_Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,10 +53,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "jdk.selected.JAVA_MODULE": "17 (2)",
+    "last_opened_file_path": "C:/Users/hadis/Desktop/Git/stahmsmvw/Chorely/server/src/service",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hadis\Desktop\Git\stahmsmvw\Chorely\server\src\service" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Skola\Documents\GitHub\Chorely\server\src\service" />
     </key>
