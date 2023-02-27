@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="coupled register/login methods -&gt; database users">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="bugfix - deleting group members now removes group from their list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,9 +21,14 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="mirsmi &lt;89800037+mirsmi@users.noreply.github.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="refactoring" />
+        <entry key="$PROJECT_DIR$/.." value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -46,27 +50,36 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Skola\Documents\GitHub\Chorely\server\src\service" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="service" />
+      <recent name="controller" />
+      <recent name="model" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="service" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DatabaseConnection">
+  <component name="RunManager" selected="Application.StartProgram">
+    <configuration name="ConnectSQL" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.ConnectSQL" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DatabaseConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="service.DatabaseConnection" />
       <module name="server" />
@@ -106,49 +119,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="unitTests in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="service.*" />
+          <option name="PATTERN" value="unitTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="service" />
-      <option name="MAIN_CLASS_NAME" value="service.QueryExecutorTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="QueryExecutorTest.executeReadQuery" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="service" />
-      <option name="MAIN_CLASS_NAME" value="service.QueryExecutorTest" />
-      <option name="METHOD_NAME" value="executeReadQuery" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="unitTests" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.ConnectSQL" />
       <item itemvalue="Application.DatabaseConnection" />
       <item itemvalue="Application.GroupQueries" />
       <item itemvalue="Application.StartProgram" />
-      <item itemvalue="JUnit.QueryExecutorTest" />
-      <item itemvalue="JUnit.QueryExecutorTest.executeReadQuery" />
+      <item itemvalue="JUnit.unitTests in server" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.StartProgram" />
+        <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.GroupQueries" />
+        <item itemvalue="Application.ConnectSQL" />
+        <item itemvalue="JUnit.unitTests in server" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +249,67 @@
       <option name="presentableId" value="LOCAL−00015" />
       <updated>1676820445943</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL−00016" summary="usermethods now can handle null values">
+      <created>1677223710375</created>
+      <option name="number" value="LOCAL−00016" />
+      <option name="presentableId" value="LOCAL−00016" />
+      <updated>1677223710375</updated>
+    </task>
+    <task id="LOCAL−00017" summary="updated user query for getting groups">
+      <created>1677224636102</created>
+      <option name="number" value="LOCAL−00017" />
+      <option name="presentableId" value="LOCAL−00017" />
+      <updated>1677224636102</updated>
+    </task>
+    <task id="LOCAL−00018" summary="coupled query classes">
+      <created>1677225767412</created>
+      <option name="number" value="LOCAL−00018" />
+      <option name="presentableId" value="LOCAL−00018" />
+      <updated>1677225767412</updated>
+    </task>
+    <task id="LOCAL−00019" summary="server now returns all groups at login">
+      <created>1677229091879</created>
+      <option name="number" value="LOCAL−00019" />
+      <option name="presentableId" value="LOCAL−00019" />
+      <updated>1677229091879</updated>
+    </task>
+    <task id="LOCAL−00020" summary="only looks for user info if login success">
+      <created>1677235523886</created>
+      <option name="number" value="LOCAL−00020" />
+      <option name="presentableId" value="LOCAL−00020" />
+      <updated>1677235523886</updated>
+    </task>
+    <task id="LOCAL−00021" summary="chores now save to correct group">
+      <created>1677242707835</created>
+      <option name="number" value="LOCAL−00021" />
+      <option name="presentableId" value="LOCAL−00021" />
+      <updated>1677242707835</updated>
+    </task>
+    <task id="LOCAL−00022" summary="removed duplicate methods">
+      <created>1677248693911</created>
+      <option name="number" value="LOCAL−00022" />
+      <option name="presentableId" value="LOCAL−00022" />
+      <updated>1677248693911</updated>
+    </task>
+    <task id="LOCAL−00023" summary="leaderboard now updates">
+      <created>1677254056350</created>
+      <option name="number" value="LOCAL−00023" />
+      <option name="presentableId" value="LOCAL−00023" />
+      <updated>1677254056350</updated>
+    </task>
+    <task id="LOCAL−00024" summary="shared.iml">
+      <created>1677436536143</created>
+      <option name="number" value="LOCAL−00024" />
+      <option name="presentableId" value="LOCAL−00024" />
+      <updated>1677436536143</updated>
+    </task>
+    <task id="LOCAL−00025" summary="bugfix - deleting group members now removes group from their list">
+      <created>1677446825407</created>
+      <option name="number" value="LOCAL−00025" />
+      <option name="presentableId" value="LOCAL−00025" />
+      <updated>1677446825407</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -289,7 +347,27 @@
     <MESSAGE value="create group" />
     <MESSAGE value="chore/reward queries,&#10;updated deleteUser query&#10;started linking model -&gt; service" />
     <MESSAGE value="coupled register/login methods -&gt; database users" />
-    <option name="LAST_COMMIT_MESSAGE" value="coupled register/login methods -&gt; database users" />
+    <MESSAGE value="usermethods now can handle null values" />
+    <MESSAGE value="updated user query for getting groups" />
+    <MESSAGE value="coupled query classes" />
+    <MESSAGE value="server now returns all groups at login" />
+    <MESSAGE value="only looks for user info if login success" />
+    <MESSAGE value="chores now save to correct group" />
+    <MESSAGE value="removed duplicate methods" />
+    <MESSAGE value="leaderboard now updates" />
+    <MESSAGE value="shared.iml" />
+    <MESSAGE value="bugfix - deleting group members now removes group from their list" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix - deleting group members now removes group from their list" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/server$unitTests_in_server.ic" NAME="unitTests in server Coverage Results" MODIFIED="1676288559782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

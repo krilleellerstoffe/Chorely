@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,12 +40,14 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
     ArrayList<Group> groupList = new ArrayList<>();
     ArrayList<Group> updatedGroups = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_groups);
         buildRecyclerView();
         updatedGroups = Model.getInstance(getFilesDir(),this).getGroups();
+        ((TextView) findViewById(R.id.manage_groups_textViewUserName)).setText("  Inloggad som: " + Model.getInstance(getFilesDir(),this).getUser().getUsername());
         updateGroupsList();
     }
 
@@ -120,14 +123,14 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
 
     }
 
-    public String logOut() {
+    public void logOut() {
+        Presenter.getInstance().deregisterForUpdates(this);
         Model model = Model.getInstance(getFilesDir(),this);
         Message logOutMsg = new Message(NetCommands.logout, model.getUser(), new ArrayList<Transferable>());
         model.handleTask(logOutMsg);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-        return "logged out";
     }
     /**
      * Interface method to toast activity.
@@ -188,11 +191,10 @@ public class ManageGroupsActivity extends AppCompatActivity implements Updatable
                     Group group = updatedGroups.get(i);
                     if (groupList.contains(group)) {
                         int shownGroupIndex = groupList.indexOf(group);
-                        if (!groupList.get(shownGroupIndex).allIsEqual(group)) {
                             groupList.remove(shownGroupIndex);
-                            groupList.add(group);
+                            groupList.add(shownGroupIndex, group);
                             mAdapter.notifyDataSetChanged();
-                        }
+
                     } else {
                         groupList.add(group);
                         mAdapter.notifyDataSetChanged();

@@ -3,9 +3,13 @@ package com.mau.chorely.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -163,6 +167,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
      * Method to put the activity in different initial states depending on if the user was sent here
      * by selecting a group to edit, or by creating a new group.
      */
+    @SuppressLint("ResourceAsColor")
     private void initActivity() {
         if (selectedGroup != null) {
             //update an existing group
@@ -183,6 +188,12 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
             newGroup = true;
             selectedGroup.setOwner(Model.getInstance(getFilesDir(),this).getUser().getUsername());
             selectedGroup.addMember(Model.getInstance(getFilesDir(),this).getUser());
+            findViewById(R.id.edit_group_textViewAddMembers).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_memberSearchText).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_searchBarMembers).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_searchMemberButton).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_addMemberButton).setVisibility(View.GONE);
+            findViewById(R.id.edit_group_memberSearchCancelButton).setVisibility(View.GONE);
             initListView();
         }
     }
@@ -194,6 +205,7 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public void saveGroup() {
         String groupName = ((EditText) findViewById(R.id.edit_group_current_name)).getText().toString();
         String groupDescription = ((EditText) findViewById(R.id.edit_group_edit_description_text)).getText().toString();
+        System.out.println("SAVING GROUP: " + selectedGroup.getGroupID());
         if (!groupName.equals("")) {
             if (!groupDescription.equals("")) {
                 NetCommands command;
@@ -206,9 +218,11 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 ArrayList<Transferable> data = new ArrayList<>();
                 selectedGroup.setName(groupName);
                 selectedGroup.setDescription(groupDescription);
-                selectedGroup.setOwner(model.getUser().getUsername());
-                selectedGroup.addMember(model.getUser());
-                selectedGroup.addToLeaderboard(model.getUser(), 0);
+                if(newGroup) {
+                    selectedGroup.setOwner(model.getUser().getUsername());
+                    selectedGroup.addMember(model.getUser());
+                    selectedGroup.addToLeaderboard(model.getUser(), 0);
+                }
                 System.out.println(selectedGroup.getUsers());
                 if(newGroup) {
                     System.out.println("New group");
@@ -220,7 +234,9 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 Message message = new Message(command, model.getUser(), data);
                 model.handleTask(message);
                 newGroup = false;
+                //only make null if returning to group screen?
                 selectedGroup = null;
+                startActivity(new Intent(this, ManageGroupsActivity.class));
                 finish();
             } else {
                 doToast("Fyll i beskrivning till din grupp.");
@@ -239,7 +255,14 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
     public boolean removeMemberFromGroup(View view) {
         if (adapter.getCount() > 1) {
             System.out.println(selectedMemberIndex);
-            selectedGroup.getUsers().remove(selectedMemberIndex);
+            //outlaw removing of group owner
+            if(selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(selectedGroup.getOwner())) {
+                doToast("Kan ej ta bort grupp-agaren");
+//            } else if (selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(Model.getInstance(getFilesDir(),this).getUser().getUsername())){
+//                doToast("Kan ej ta bort själv från gruppen");
+            } else {
+                selectedGroup.getUsers().remove(selectedMemberIndex);
+            }
             adapter.notifyDataSetChanged();
             return true;
         } else {

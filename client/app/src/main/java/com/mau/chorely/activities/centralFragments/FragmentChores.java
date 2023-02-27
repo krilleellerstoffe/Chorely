@@ -41,9 +41,11 @@ import shared.transferable.User;
 public class FragmentChores extends Fragment implements View.OnClickListener {
     private static ArrayList<ListItemCentral> itemList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private static CentralActivityRecyclerViewAdapter adapter;
+    private static CentralActivityRecyclerViewAdapter adapter = new CentralActivityRecyclerViewAdapter(itemList);
     private RecyclerView.LayoutManager layoutManager;
     private int selectedItem;
+
+    private Group selectedGroup;
 
     public FragmentChores() {
         // Required empty public constructor
@@ -55,10 +57,11 @@ public class FragmentChores extends Fragment implements View.OnClickListener {
      *
      * @return A new instance of fragment FragmentChores.
      */
-    public static FragmentChores newInstance(ArrayList<Chore> chores) {
+    public static FragmentChores newInstance(ArrayList<Chore> chores, Group group) {
         FragmentChores fragment = new FragmentChores();
         Bundle args = new Bundle();
         args.putSerializable("CHORES", chores);
+        args.putSerializable("GROUP", group);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,9 +73,9 @@ public class FragmentChores extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemList = new ArrayList<>();
         if (getArguments() != null) {
             ArrayList<Chore> chores = (ArrayList<Chore>) getArguments().getSerializable("CHORES");
+            selectedGroup = (Group) getArguments().getSerializable("GROUP");
             validateAndUpdateListData(chores);
         }
     }
@@ -141,6 +144,7 @@ public class FragmentChores extends Fragment implements View.OnClickListener {
      */
     public static void updateList(ArrayList<Chore> chores) {
         validateAndUpdateListData(chores);
+        //todo solve null issue
         adapter.notifyDataSetChanged();
     }
 
@@ -151,7 +155,7 @@ public class FragmentChores extends Fragment implements View.OnClickListener {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new CentralActivityRecyclerViewAdapter(itemList);
+//        adapter = new CentralActivityRecyclerViewAdapter(itemList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         adapter.setOnclickListener(new CentralActivityRecyclerViewAdapter.OnitemClickListener() {
@@ -195,17 +199,14 @@ public class FragmentChores extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             int points = Integer.parseInt(itemList.get(selectedItem).getPoints());
-                            // updates on client side, THEN sends message to server -> suggest
-                            // we just send a message and update values with response from server = cut
-                            // need for local storage.
+                            // updates on client side, THEN sends message to server
                             Model model = Model.getInstance(getActivity().getFilesDir(),getContext());
                             Group group = model.getSelectedGroup();
                             User currentUser = model.getUser();
                             group.getChores().get(selectedItem).setLastDoneByUser(currentUser.getUsername());
-                            System.out.println(group.getChores().get(selectedItem).getLastDoneByUser());
+                            group.modifyUserPoints(model.getUser(), points);
                             ArrayList<Transferable> data = new ArrayList<>();
                             data.add(group);
-                            group.modifyUserPoints(model.getUser(), points);
                             Message message = new Message(NetCommands.clientInternalGroupUpdate, currentUser, data);
                             model.handleTask(message);
                             choreDoneNotification();

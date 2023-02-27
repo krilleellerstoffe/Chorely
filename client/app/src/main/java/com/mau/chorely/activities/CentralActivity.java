@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,7 +68,11 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
         } else if (item.getItemId() == R.id.logOut) {
             logOut();
         } else if (item.getItemId() == R.id.menu_central_deleteGroup) {
-            deleteGroup();
+            if(!Model.getInstance(getFilesDir(),this).getUser().getUsername().equals(selectedGroup.getOwner())){
+                doToast("Bara grupp-agaren får radera gruppen");
+            } else {
+                deleteGroup();
+            }
         } else
             System.out.println("ITEM: " + item);
         return super.onOptionsItemSelected(item);
@@ -78,7 +83,6 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
      */
     public void logOut() {
         Presenter.getInstance().deregisterForUpdates(this);
-
         Model model = Model.getInstance(getFilesDir(),this);
         Message logOutMsg = new Message(NetCommands.logout, model.getUser(), new ArrayList<Transferable>());
         model.handleTask(logOutMsg);
@@ -98,6 +102,8 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
         data.add(model.getSelectedGroup());
         Message deleteGroupMsg = new Message(NetCommands.deleteGroup, model.getUser(), data);
         model.handleTask(deleteGroupMsg);
+        selectedGroup = null;
+        startActivity(new Intent(this, ManageGroupsActivity.class));
         finish();
     }
 
@@ -137,7 +143,7 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
     @Override
     public void updateActivity() {
         final Group updatedGroup = Model.getInstance(getFilesDir(),this).getSelectedGroup();
-        if (!selectedGroup.allIsEqual(updatedGroup)) {
+
             selectedGroup = updatedGroup;
             System.out.println("UPDATING FRAGMENT LISTS");
             runOnUiThread(new Runnable() {
@@ -148,7 +154,7 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
                     FragmentScore.updateList(selectedGroup.getLeaderBoard());
                 }
             });
-        }
+
 
         runOnUiThread(new Runnable() {
             @Override
@@ -186,9 +192,9 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
             rewards = selectedGroup.getRewards();
             points = selectedGroup.getLeaderBoard();
         }
-        adapter.addFragment(FragmentChores.newInstance(chores), "Sysslor");
-        adapter.addFragment(FragmentRewards.newInstance(rewards), "Belöningar");
-        adapter.addFragment(FragmentScore.newInstance(points), "Poängtavla");
+        adapter.addFragment(FragmentChores.newInstance(chores, selectedGroup), "Sysslor");
+        adapter.addFragment(FragmentRewards.newInstance(rewards, selectedGroup), "Belöningar");
+        adapter.addFragment(FragmentScore.newInstance(points, selectedGroup), "Poängtavla");
         viewPager.setAdapter(adapter);
 
     }
