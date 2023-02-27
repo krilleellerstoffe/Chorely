@@ -309,3 +309,9 @@ server/.idea/server.iml
 client/app/.idea/misc.xml
 client/app/.idea/gradle.xml
 client/app/.idea/vcs.xml
+client/.idea/deploymentTargetDropDown.xml
+client/app/.idea/workspace.xml
+client/.idea/deploymentTargetDropDown.xml
+server/.idea/compiler.xml
+server/.idea/libraries/bluecatcode_junit_4_10_extended.xml
+
