@@ -22,7 +22,6 @@ public class UserQueries {
     ChoreRewardQueries choreRewardQueries;
 
     public UserQueries(QueryExecutor queryExecutor){
-        System.out.println("build UQ");
        this.queryExecutor = queryExecutor;
         leaderboardQueries = queryExecutor.getLeaderboardQueries();
         choreRewardQueries = queryExecutor.getChoreRewardQueries();
@@ -48,7 +47,6 @@ public class UserQueries {
             success = true;
         }
         catch (SQLException sqlException) {
-            //todo will fail if duplicate username found -> throw appropriate error message
             sqlException.printStackTrace();
         }
         return success;
@@ -62,12 +60,8 @@ public class UserQueries {
     public User loginUser(String userName, String password) {
         User loggedInUser = null;
         if (checkPassword(userName, password)) {
-            String sqlSafeUsername = makeSqlSafe(userName);
-            //get users basic info
-            loggedInUser = getUserInfo(sqlSafeUsername);
-            //get groups user is member of
-            ArrayList<Group> groups = groupQueries.getGrouplist(sqlSafeUsername);
-            loggedInUser.setDBGroups(groups);
+            loggedInUser = new User(userName);
+            loggedInUser.setPassword(password);
         }
         return loggedInUser;
     }
@@ -80,7 +74,6 @@ public class UserQueries {
      */
     public User getUserInfo(String userName) {
         String sqlSafeUsername = makeSqlSafe(userName);
-        boolean adult = false;
         User gotUser = null;
         String query = "SELECT * FROM [User] WHERE user_name = '" + sqlSafeUsername + "';";
         try {
@@ -180,6 +173,27 @@ public class UserQueries {
 
     public void setGroupQueries(GroupQueries groupQueries) {
         this.groupQueries = groupQueries;
+    }
+
+    public User getBasicUserInfo(User u) {
+        String sqlSafeUsername = makeSqlSafe(u.getUsername());
+        User gotUser = null;
+        String query = "SELECT * FROM [User] WHERE user_name = '" + sqlSafeUsername + "';";
+        try {
+            ResultSet resultSet = queryExecutor.executeReadQuery(query);
+            if (resultSet.next()) {
+                gotUser = new User(sqlSafeUsername);
+                int adultInt = resultSet.getInt("is_adult");
+                if(adultInt == 1) gotUser.setAdult(true);
+            }
+            else {
+                System.out.println("User: " + sqlSafeUsername + " not found");
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gotUser;
     }
 }
 

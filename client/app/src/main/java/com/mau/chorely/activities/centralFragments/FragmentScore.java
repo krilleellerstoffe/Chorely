@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mau.chorely.R;
 import com.mau.chorely.activities.centralFragments.utils.CentralActivityRecyclerViewAdapter;
 import com.mau.chorely.activities.centralFragments.utils.ListItemCentral;
-import com.mau.chorely.model.Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.transferable.Group;
 import shared.transferable.User;
 
 /**
@@ -30,13 +32,14 @@ public class FragmentScore extends Fragment {
     private static HashMap<User, Integer> scoreMap;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private static CentralActivityRecyclerViewAdapter adapter;
-    private static ArrayList<ListItemCentral> itemList = new ArrayList<>();
+    private static ArrayList<ListItemCentral> leaderBoard = new ArrayList<>();
+    private static CentralActivityRecyclerViewAdapter adapter = new CentralActivityRecyclerViewAdapter(leaderBoard);
 
-    public static Fragment newInstance(HashMap<User, Integer> scoreMap) {
+    public static Fragment newInstance(HashMap<User, Integer> scoreMap, Group selectedGroup) {
         FragmentScore fragment = new FragmentScore();
         Bundle args = new Bundle();
         args.putSerializable("SCORE", scoreMap);
+        args.putSerializable("SELECTED GROUP", selectedGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +47,7 @@ public class FragmentScore extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemList = new ArrayList<>();
+        leaderBoard = new ArrayList<>();
         if (getArguments() != null) {
             scoreMap = (HashMap<User, Integer>) getArguments().getSerializable("SCORE");
 
@@ -69,7 +72,7 @@ public class FragmentScore extends Fragment {
     public void buildRecyclerView() {
         recyclerView.hasFixedSize();
         layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new CentralActivityRecyclerViewAdapter(itemList, R.layout.scoreboard_item);
+        adapter = new CentralActivityRecyclerViewAdapter(leaderBoard, R.layout.scoreboard_item);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -87,16 +90,16 @@ public class FragmentScore extends Fragment {
             System.out.println("UPDATING SCOREBOARD INSIDE IF");
             boolean updated = false;
             boolean foundEntry = false;
-            int size = itemList.size();
+            int size = leaderBoard.size();
             for (Map.Entry<User, Integer> entry : scoreMap.entrySet()) {
                 for (int i = 0; i < size; i++) {
-                    System.out.println(itemList.get(i).getTitle() + " ?= " + entry.getKey().getUsername());
-                    if (itemList.get(i).getTitle().equals(entry.getKey().getUsername())) {
-                        System.out.println(itemList.get(i).getPointsInt() + " ?= " + entry.getValue());
-                        if (itemList.get(i).getPointsInt() != entry.getValue()) {
+                    System.out.println(leaderBoard.get(i).getTitle() + " ?= " + entry.getKey().getUsername());
+                    if (leaderBoard.get(i).getTitle().equals(entry.getKey().getUsername())) {
+                        System.out.println(leaderBoard.get(i).getPointsInt() + " ?= " + entry.getValue());
+                        if (leaderBoard.get(i).getPointsInt() != entry.getValue()) {
                             System.out.println("UPDATING SCORE!!!!");
-                            itemList.remove(i);
-                            itemList.add(new ListItemCentral(entry.getKey().getUsername(), null, entry.getValue()));
+                            leaderBoard.remove(i);
+                            leaderBoard.add(new ListItemCentral(entry.getKey().getUsername(), null, entry.getValue()));
                             updated = true;
                         }
                         foundEntry = true;
@@ -104,21 +107,21 @@ public class FragmentScore extends Fragment {
                     }
                 }
                 if (!foundEntry) {
-                    itemList.add(new ListItemCentral(entry.getKey().getUsername(), null, entry.getValue()));
+                    leaderBoard.add(new ListItemCentral(entry.getKey().getUsername(), null, entry.getValue()));
                     updated = true;
                 }
             }
 
-            if (scoreMap.size() > itemList.size()) {
-                for (int i = 0; i < itemList.size(); i++) {
+            if (scoreMap.size() > leaderBoard.size()) {
+                for (int i = 0; i < leaderBoard.size(); i++) {
                     foundEntry = false;
                     for (Map.Entry<User, Integer> entry : scoreMap.entrySet()) {
-                        if (entry.getKey().getUsername().equals(itemList.get(i).getTitle())) {
+                        if (entry.getKey().getUsername().equals(leaderBoard.get(i).getTitle())) {
                             foundEntry = true;
                         }
                     }
                     if (!foundEntry) {
-                        itemList.remove(i);
+                        leaderBoard.remove(i);
                     }
                 }
             }
@@ -127,9 +130,10 @@ public class FragmentScore extends Fragment {
                 adapter.notifyDataSetChanged();
 
             }
-            System.out.println("UPDATED SCOREBOARD: Size: " + itemList.size());
+            System.out.println("UPDATED SCOREBOARD: Size: " + leaderBoard.size());
             adapter.notifyDataSetChanged();
         }
+        sortLeaderboard();
     }
 
     /**
@@ -143,7 +147,17 @@ public class FragmentScore extends Fragment {
             int points = entry.getValue();
             System.out.println("ADDED VALUES TO SCOREBOARD: Name:" + user.getUsername() + " Points: " + points);
             ListItemCentral item = new ListItemCentral(user.getUsername(), "", points);
-            itemList.add(item);
+            leaderBoard.add(item);
         }
+        sortLeaderboard();
     }
+    private static void sortLeaderboard () {
+        Collections.sort(leaderBoard, new Comparator<ListItemCentral>() {
+            @Override
+            public int compare(ListItemCentral o1, ListItemCentral o2) {
+                return o1.getPointsInt() - o2.getPointsInt();
+            }
+        });
+    }
+
 }

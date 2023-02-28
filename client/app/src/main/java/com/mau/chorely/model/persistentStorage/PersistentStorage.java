@@ -53,9 +53,9 @@ public class PersistentStorage {
      * Method to delete selected group.
      */
     public void deleteSelectedGroup() {
-//     if(selectedGroup.exists()) {
-//         selectedGroup.delete();
-//     }
+     if(selectedGroup.exists()) {
+         selectedGroup.delete();
+     }
     }
 
     /**
@@ -141,7 +141,7 @@ public class PersistentStorage {
                     new FileInputStream(groupFile)))) {
                 Group oldGroup = (Group) inputStream.readObject();
 
-                if (!oldGroup.allIsEqual(newGroup)) {
+
                     groupFile.delete();
                     ObjectOutputStream outputStream = new ObjectOutputStream(new
                             BufferedOutputStream(new FileOutputStream(groupFile)));
@@ -151,7 +151,7 @@ public class PersistentStorage {
                     outputStream.close();
                     System.out.println("New group saved----------------------------");
                     groupUpdated = true;
-                }
+
 
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("ERROR HANDLING GROUP FILE: " + e.getMessage());

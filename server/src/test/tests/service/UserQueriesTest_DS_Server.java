@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import shared.transferable.Group;
 import shared.transferable.User;
 
+import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
