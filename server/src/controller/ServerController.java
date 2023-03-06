@@ -142,10 +142,22 @@ public class ServerController {
                 break;
             case choreNotificationSent:     // @Author Johan
                 sendChoreNotification(msg);
+                break;
+            case promoteUser:
+                promoteUser(msg);
+                break;
             default:
                 break;
         }
         return command;
+    }
+
+
+    public void promoteUser(Message msg){
+        User user = msg.getUser();
+        Group group = (Group) msg.getData().get(0);
+
+        registeredGroups.promoteUser(group, user);
     }
 
     /**

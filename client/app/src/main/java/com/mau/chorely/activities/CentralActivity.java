@@ -73,7 +73,9 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
             } else {
                 deleteGroup();
             }
-        } else
+        }
+
+        else
             System.out.println("ITEM: " + item);
         return super.onOptionsItemSelected(item);
     }
@@ -106,6 +108,7 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
         startActivity(new Intent(this, ManageGroupsActivity.class));
         finish();
     }
+
 
 
     @Override
@@ -144,6 +147,8 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
     public void updateActivity() {
         final Group updatedGroup = Model.getInstance(getFilesDir(),this).getSelectedGroup();
 
+        if(selectedGroup!=null) {
+
             selectedGroup = updatedGroup;
             System.out.println("UPDATING FRAGMENT LISTS");
             runOnUiThread(new Runnable() {
@@ -156,12 +161,13 @@ public class CentralActivity extends AppCompatActivity implements UpdatableActiv
             });
 
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUserPoints();
-            }
-        });
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateUserPoints();
+                }
+            });
+        }
     }
 
     @Override

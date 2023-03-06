@@ -249,6 +249,7 @@ public class Model {
         }
     }
 
+
     /**
      * This method updates current group with new chores.
      *
@@ -424,7 +425,6 @@ public class Model {
                             Presenter.getInstance().updateCurrent();
                             break;
 
-
                         case connectionFailed:
                             isConnected = false;
                             isLoggedIn = false;
@@ -482,6 +482,9 @@ public class Model {
                             break;
                         case choreNotificationReceived:         //@author Johan
                             receiveChoreNotification(currentTask);
+                            break;
+                        case promoteUser:
+                            network.sendMessage(currentTask);
                             break;
                         default:
                             System.out.println("Unrecognized command: " + command);
