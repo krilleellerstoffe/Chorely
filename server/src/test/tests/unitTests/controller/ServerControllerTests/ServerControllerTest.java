@@ -1,8 +1,25 @@
 package unitTests.controller.ServerControllerTests;
 
+import controller.ClientHandler;
+import controller.ServerController;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+//import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Assert;
+import service.DatabaseConnection;
+import service.QueryExecutor;
+import shared.transferable.Group;
+import shared.transferable.User;
+
+import javax.management.Query;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Connection;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** 
 * ServerController Tester. 
@@ -30,7 +47,28 @@ public void testHandleMessage() throws Exception {
 */ 
 @Test
 public void testAddOnlineClient() throws Exception { 
-//TODO: Test goes here... 
+//TODO: Test goes here...
+
+    ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
+    User user = new User("Testme", "123");
+
+    try {
+        ServerSocket serverSocket = new ServerSocket(1234);
+        Socket socket = serverSocket.accept();
+        ClientHandler handler = new ClientHandler(socket, new ServerController(1234));
+
+        onlineUsers.put(user, handler);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+
+    assertTrue(onlineUsers.contains(user));
+    //assertTrue(onlineUsers.contains(user);
+
+
+    //assertEquals(user, );
+
+
 } 
 
 /** 
@@ -39,8 +77,23 @@ public void testAddOnlineClient() throws Exception {
 * 
 */ 
 @Test
-public void testRemoveOnlineClient() throws Exception { 
-//TODO: Test goes here... 
+public void testRemoveOnlineClient() throws Exception {
+
+    ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
+    ServerController controller = new ServerController(1234);
+    ClientHandler clientHandler = new ClientHandler(new Socket(), controller);
+    for (int i = 1; i < 5; i++){        //Create 5 new users and add them to the map
+        User user = new User("Name" + i, "password");
+        onlineUsers.put(user, clientHandler);
+    }
+    onlineUsers.remove("Name2");    //remove a "random" user created earlier
+
+    //Test that the map is still active, and the size of it modified
+    assertNotNull(onlineUsers);
+    int arraySize = onlineUsers.size();
+    assertEquals(arraySize, 4);
+
+
 } 
 
 /** 
@@ -60,7 +113,8 @@ public void testSendSavedGroups() throws Exception {
 */ 
 @Test
 public void testSendReply() throws Exception { 
-//TODO: Test goes here... 
+//TODO: Test goes here...
+
 } 
 
 /** 
@@ -109,8 +163,15 @@ public void testRegisterNewGroup() throws Exception {
 * 
 */ 
 @Test
-public void testUpdateGroup() throws Exception { 
-//TODO: Test goes here... 
+public void testUpdateGroup() throws Exception {
+
+//TODO: Test goes here...
+Group group = new Group();
+QueryExecutor query = new QueryExecutor(new DatabaseConnection("chorelyBackup"));
+
+//String query = "INSERT into [Group]"
+    //MockConnection
+
 } 
 
 /** 
