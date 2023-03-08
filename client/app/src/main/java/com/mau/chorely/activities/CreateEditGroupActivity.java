@@ -399,4 +399,11 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
                 InputMethodManager.HIDE_NOT_ALWAYS);
 
     }
+
+    /**
+     * Created for testing purposes
+     */
+    public void setSelectedGroup(Group selectedGroup) {
+        this.selectedGroup = selectedGroup;
+    }
 }

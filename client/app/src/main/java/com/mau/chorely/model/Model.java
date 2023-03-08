@@ -3,6 +3,7 @@ package com.mau.chorely.model;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.net.Network;
 
 import androidx.core.app.NotificationCompat;
 
@@ -57,6 +58,15 @@ public class Model {
         Thread modelThread = new Thread(new ModelThread());
         modelThread.start();
         storage = new PersistentStorage(filesDir);
+    }
+
+    /**
+     *Constructor created for testing purposes
+     * @author Johan Salomonsson
+     */
+    public Model(ClientNetworkManager testNetwork, PersistentStorage testStorage){
+        network = testNetwork;
+        storage = testStorage;
     }
 
     /**
@@ -198,7 +208,7 @@ public class Model {
      *
      * @return
      */
-    private String automaticLogIn() {
+    public String automaticLogIn() {
         if (hasStoredUser()) {
             network.sendMessage(new Message(NetCommands.login, getUser()));
             return "Automatic Login";
@@ -212,7 +222,7 @@ public class Model {
      * @param msg Message containing user object to login to.
      * @return
      */
-    private String manualLogIn(Message msg) {
+    public String manualLogIn(Message msg) {
         network.sendMessage(msg);
         return "Manual login";
     }
@@ -223,7 +233,7 @@ public class Model {
      * @param msg message containing the user to log out.
      * @return
      */
-    private String logOut(Message msg) {
+    public String logOut(Message msg) {
         network.sendMessage(msg);
         isLoggedIn = false;
         storage.deleteAllGroups();

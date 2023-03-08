@@ -5,6 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="bugfix - deleting group members now removes group from their list">
+      <change afterPath="$PROJECT_DIR$/../client/app/src/test/java/com/mau/chorely/test/CreateEditGroupActivityTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/app/src/test/java/com/mau/chorely/test/ModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/CreateEditGroupActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/activities/CreateEditGroupActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-02-20_11_46__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-02-20_11_46__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,10 +55,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/Johan/Desktop/GitHub/Chorely/server/src/service"
+  }
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Johan\Desktop\GitHub\Chorely\server\src\service" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Skola\Documents\GitHub\Chorely\server\src\service" />
     </key>
