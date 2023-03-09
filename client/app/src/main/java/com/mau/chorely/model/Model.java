@@ -34,7 +34,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 
 public class Model {
-    private LinkedBlockingDeque<Message> taskToHandle = new LinkedBlockingDeque<>();
+    public LinkedBlockingDeque<Message> taskToHandle = new LinkedBlockingDeque<>();
     private volatile boolean isLoggedIn = false;
     private volatile boolean isConnected = false;
     private PersistentStorage storage;
@@ -67,6 +67,11 @@ public class Model {
     public Model(ClientNetworkManager testNetwork, PersistentStorage testStorage){
         network = testNetwork;
         storage = testStorage;
+    }
+    public Model(ClientNetworkManager testNetwork, PersistentStorage testStorage, Context testContext){
+        network = testNetwork;
+        storage = testStorage;
+        context = testContext;
     }
 
     /**
@@ -135,6 +140,14 @@ public class Model {
     }
 
     /**
+     * Created for testing purposes
+     * @author Johan Salomonsson
+     */
+    public void setLastSearchedUser(User user) {
+        lastSearchedUser = user;
+    }
+
+    /**
      * Callback method. Puts the message in a queue to be handled by the model thread.
      *
      * @param msg this is the task to handle, complete with a command, and data.
@@ -157,7 +170,7 @@ public class Model {
      * @param message message containing the group to update.
      * @return
      */
-    private String updateGroup(Message message) {
+    public String updateGroup(Message message) {
         //todo make sure currentGroup contains users
         Group currentGroup = (Group) message.getData().get(0);
         System.out.println("current group to update: " +currentGroup+  "with users: " + currentGroup.getMembers());
@@ -185,7 +198,7 @@ public class Model {
      * @param message
      * @return
      */
-    private String updateGroupExternal(Message message) {
+    public String updateGroupExternal(Message message) {
         Group currentGroup = (Group) message.getData().get(0);
         if (currentGroup.getUsers().contains(storage.getUser())) {
 
@@ -248,7 +261,7 @@ public class Model {
      * @param message message containing the new group.
      * @return
      */
-    private String createGroup(Message message) {
+    public String createGroup(Message message) {
         System.out.println("SENDING NEW GROUP TO SERVER");
         try {
             network.sendMessage(message);
