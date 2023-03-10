@@ -6,7 +6,7 @@
     <item
         android:id="@+id/edit_group_menu_saveChanges"
         android:title="@string/saveChanges"
-        android:icon="@drawable/save_icon_white"
+        android:icon="@drawable/check_mark"
         app:showAsAction="always"
         />
 

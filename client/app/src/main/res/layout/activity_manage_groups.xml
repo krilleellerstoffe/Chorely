@@ -57,7 +57,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/btnColor"
+        android:backgroundTint="@color/extraAccent"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/central_panel_add"
