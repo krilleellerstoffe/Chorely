@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="checkerframework.checker" type="repository">
+    <properties maven-id="org.checkerframework:checker:3.22.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker/3.22.0/checker-3.22.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-qual/3.22.0/checker-qual-3.22.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-util/3.22.0/checker-util-3.22.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

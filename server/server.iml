@@ -31,5 +31,6 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="bluecatcode.mockito.1.10.19.extended" level="project" />
     <orderEntry type="library" name="de.svenkubiak.jBCrypt" level="project" />
+    <orderEntry type="library" exported="" name="checkerframework.checker" level="project" />
   </component>
 </module>
