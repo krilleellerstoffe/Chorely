@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ABC270</color>
-    <color name="colorPrimaryDark">#FEC868</color>
-    <color name="colorAccent">#473C33</color>
-    <color name="background" >#ABC270</color>
-    <color name="btnColor" >#473C33</color>
-    <color name="backgroundLight">#FEC868</color>
-    <color name="extraAccent">#FDA769</color>
+    <color name="colorPrimary">#C9EEFF</color>
+    <color name="colorPrimaryDark">#C9EEFF</color>
+    <color name="colorAccent">#62CDFF</color>
+    <color name="background" >#AA77FF</color>
+    <color name="btnColor" >#C9EEFF</color>
+    <color name="backgroundLight">#AA77FF</color>
+    <color name="extraAccent">#97DEFF</color>
+    <color name="innerBg">#97DEFF</color>
+    <color name="colorText">#2f3336</color>
 
 </resources>

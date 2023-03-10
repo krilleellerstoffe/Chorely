@@ -2,12 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     android:constantSize="true"
     android:dither="true"
-    android:variablePadding="true">
+    android:variablePadding="true"
+    android:scaleGravity="center_vertical|center_horizontal"
+    android:scaleHeight="80%"
+    android:scaleWidth="80%"
+ >
 <item
-    android:width="0dp"
-    android:height="0dp"
+
     android:drawable="@drawable/checkmark"
-
-
     />
 </selector>
