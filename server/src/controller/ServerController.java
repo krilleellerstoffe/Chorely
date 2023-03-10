@@ -45,8 +45,14 @@ public class ServerController {
      * @param user   the logged in user
      * @param client the connected client
      */
-    public void addOnlineClient(User user, ClientHandler client) {
-        onlineClients.put(user, client);
+    public boolean addOnlineClient(User user, ClientHandler client) {
+        if(!onlineClients.containsKey(user)){
+            onlineClients.put(user, client);
+            return true;    //Return true if user could be added
+        }else{
+            return false;   //Return false when user cannot be added
+        }
+
     }
 
     /**
@@ -101,7 +107,7 @@ public class ServerController {
      *
      * @param group the updated group containing the members to be notified.
      */
-    public void notifyGroupChanges(Group group) {
+    public Group notifyGroupChanges(Group group) {
         ArrayList<User> members = group.getUsers();
         ArrayList<Transferable> data = new ArrayList<>();
         data.add(group);
@@ -110,6 +116,7 @@ public class ServerController {
             Message message = new Message(NetCommands.updateGroup, u, data);
             sendReply(message);
         }
+        return group;
     }
 
     /**
