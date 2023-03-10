@@ -4,26 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0221"
-    tools:context=".activities.ConnectActivity"><![CDATA[
-
-
-
-
-    ”match_parent”
-        android:layout_height=”match_parent”
-        android:src=”@drawable/src_anim”
-        android:background=”@drawable/bg_anim”/>
-
-
-
-
-
-
-
-
-
-    ]]>
+    android:background="@color/background"
+    tools:context=".activities.ConnectActivity">
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
@@ -31,6 +13,7 @@
         android:layout_height="112dp"
         android:layout_marginBottom="104dp"
         android:src="@drawable/loading"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -40,6 +40,7 @@
                 android:layout_toEndOf="@id/nameAndPointsLayout_userName"
                 android:layout_alignParentTop="true"
                 android:src="@drawable/central_menu_star"
+                android:tint="@color/colorAccent"
                 android:layout_marginStart="25dp"  />
 
             <TextView

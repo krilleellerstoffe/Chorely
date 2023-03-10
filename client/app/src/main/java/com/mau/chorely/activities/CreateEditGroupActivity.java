@@ -27,6 +27,7 @@ import com.mau.chorely.activities.utils.ListViewAdapter;
 import com.mau.chorely.activities.utils.Presenter;
 import com.mau.chorely.model.Model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import shared.transferable.Group;
@@ -156,8 +157,15 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedMemberIndex = position;
+
+
+                ImageButton promoteButton = findViewById(R.id.edit_group_promoteUserButton);
+                promoteButton.setVisibility(View.VISIBLE);
+
                 ImageButton deleteButton = findViewById(R.id.edit_group_deleteMemberButton);
                 deleteButton.setVisibility(View.VISIBLE);
+
+
             }
         });
         lv.setAdapter(adapter);
@@ -273,6 +281,31 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         }
     }
 
+
+
+    public boolean promoteUser(View view) {
+        if (adapter.getCount() > 1) {
+            System.out.println(selectedMemberIndex);
+            if(selectedGroup.getUsers().get(selectedMemberIndex).getUsername().equals(selectedGroup.getOwner())) {
+                doToast("Kan ej befodra grupp-agaren");
+            } else {
+                System.out.println("User to promote: " + selectedGroup.getUsers().get(selectedMemberIndex).getUsername());
+                ArrayList<Transferable> list = new ArrayList<>();
+                list.add(selectedGroup);
+                Message msg = new Message(NetCommands.promoteUser, selectedGroup.getUsers().get(selectedMemberIndex), list);
+                Model model = Model.getInstance(getFilesDir(),this);
+                model.handleTask(msg);
+            }
+            adapter.notifyDataSetChanged();
+            return true;
+        } else {
+            Toast.makeText(this, "Varje grupp måste ha minst en användare. Om du vill " +
+                            "radera gruppen kan du göra det i menyn. ",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
     /**
      * Method to handle search events.
      * puts activity in a searching state in wait for reply.
@@ -365,5 +398,12 @@ public class CreateEditGroupActivity extends AppCompatActivity implements Updata
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
 
+    }
+
+    /**
+     * Created for testing purposes
+     */
+    public void setSelectedGroup(Group selectedGroup) {
+        this.selectedGroup = selectedGroup;
     }
 }

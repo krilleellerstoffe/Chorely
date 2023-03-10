@@ -2,6 +2,7 @@ package model;
 
 import service.*;
 import shared.transferable.Group;
+import shared.transferable.Message;
 import shared.transferable.User;
 
 /**
@@ -84,5 +85,11 @@ public class RegisteredGroups {
         this.groupQueries = queryExecutor.getGroupQueries();
         this.choreRewardQueries = queryExecutor.getChoreRewardQueries();
         this.leaderboardQueries = queryExecutor.getLeaderboardQueries();
+    }
+
+
+
+    public void promoteUser(Group group, User user){
+        groupQueries.promoteMember(group, user);
     }
 }

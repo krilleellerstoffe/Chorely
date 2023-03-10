@@ -222,9 +222,26 @@
                     android:layout_marginRight="4dp"
                     android:background="@color/background"
                     android:baselineAligned="false"
-                    android:onClick="removeMemberFromGroup"
                     android:visibility="invisible"
-                    app:srcCompat="@drawable/delete_icon" />
+                    android:onClick="removeMemberFromGroup"
+
+                    app:srcCompat="@drawable/delete_icon"
+                    />
+
+
+                <ImageButton
+                    android:id="@+id/edit_group_promoteUserButton"
+                    android:layout_width="31dp"
+                    android:layout_height="27dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toStartOf="@+id/edit_group_deleteMemberButton"
+                    android:background="@color/background"
+                    android:baselineAligned="false"
+                    android:onClick="promoteUser"
+                    android:scaleType="centerInside"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/promote" />
             </RelativeLayout>
 
             <ListView
@@ -241,3 +258,5 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -125,10 +125,27 @@ public class GroupQueries {
                 throw new RuntimeException(e);
             }
         }
-
-
         return updatedDesc;
     }
+
+
+
+    //promote a member
+    public boolean promoteMember(Group group, User member) {
+        boolean done = false;
+        if(!isUserAdmin(member,group)){
+            try {
+                String query = "UPDATE [Member] SET is_admin = 1 WHERE group_id =" + group.getGroupID() + " AND" + " user_name = " +  "'" + member.getUsername() + "'";
+                System.out.println("QUERY: " + query);
+                queryExecutor.executeUpdateQuery(query);
+                done = true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return done;
+    }
+
 
     /**
      * Method adds a member to a given group,
@@ -203,7 +220,7 @@ public class GroupQueries {
 
     public boolean isUserAdmin(User user, Group group) {
         boolean isAdmin = false;
-        String query = "SELECT * FROM [Member] WHERE user_name= " + user.getUsername() + " AND group_id= " + group.getIntGroupID();
+        String query = "SELECT * FROM [Member] WHERE user_name= " + "'" + user.getUsername() + "'" +" AND group_id= " + group.getIntGroupID();
         try {
             ResultSet resultSet = queryExecutor.executeReadQuery(query);
             if (resultSet.next()) {
@@ -246,6 +263,7 @@ public class GroupQueries {
                 throwables.printStackTrace();
             }
         }
+
         return groupRemoved;
     }
 
@@ -262,6 +280,10 @@ public class GroupQueries {
                     addMember(u, updatedGroup);
                 }
             }
+
+
+
+
             membersUpdated = true;
         }catch (Exception e) {
             membersUpdated = false;

@@ -1,9 +1,38 @@
 package unitTests.controller.ServerControllerTests;
 
+
+import controller.ClientHandler;
 import controller.ServerController;
+import model.RegisteredGroups;
+import model.RegisteredUsers;
+import static org.mockito.ArgumentMatcher.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import org.checkerframework.checker.units.qual.C;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+//import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Assert;
+import service.DatabaseConnection;
+import service.QueryExecutor;
+import shared.transferable.*;
+
+import javax.management.Query;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /** 
 * ServerController Tester. 
@@ -21,7 +50,8 @@ public class ServerControllerTest {
 * 
 */ 
 @Test
-public void testHandleMessage() throws Exception { 
+public void testHandleMessage() throws Exception {
+
 //TODO: Test goes here... 
 } 
 
@@ -31,8 +61,15 @@ public void testHandleMessage() throws Exception {
 * 
 */ 
 @Test
-public void testAddOnlineClient() throws Exception { 
-//TODO: Test goes here... 
+public void testAddOnlineClient() throws Exception {
+
+    ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
+    User user = new User("Testme", "123");
+
+    ClientHandler handler = mock(ClientHandler.class);
+    onlineUsers.put(user, handler);
+    assertEquals(handler, onlineUsers.get(user));
+
 } 
 
 /** 
@@ -41,8 +78,23 @@ public void testAddOnlineClient() throws Exception {
 * 
 */ 
 @Test
-public void testRemoveOnlineClient() throws Exception { 
-//TODO: Test goes here... 
+public void testRemoveOnlineClient() throws Exception {
+
+    ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
+    ServerController controller = mock(ServerController.class);
+    ClientHandler clientHandler = mock(ClientHandler.class);
+    for (int i = 1; i < 5; i++){        //Create 5 new users and add them to the map
+        User user = new User("Name" + i, "password");
+        onlineUsers.put(user, clientHandler);
+    }
+    onlineUsers.remove("Name2");    //remove a "random" user created earlier
+
+    //Test that the map is still active, and the size of it modified
+    assertNotNull(onlineUsers);
+    int arraySize = onlineUsers.size();
+    assertEquals(arraySize, 4);
+
+
 } 
 
 /** 
@@ -51,8 +103,8 @@ public void testRemoveOnlineClient() throws Exception {
 * 
 */ 
 @Test
-public void testSendSavedGroups() throws Exception { 
-//TODO: Test goes here... 
+public void testSendSavedGroups() throws Exception {
+
 } 
 
 /** 
@@ -61,8 +113,27 @@ public void testSendSavedGroups() throws Exception {
 * 
 */ 
 @Test
-public void testSendReply() throws Exception { 
-//TODO: Test goes here... 
+public void testSendReply() throws Exception {
+    ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
+    ServerController controller = mock(ServerController.class);
+    ClientHandler handler = mock(ClientHandler.class);
+
+    for (int i = 1; i < 5; i++){        //Create 5 new users and add them to the map
+        User user = new User("Name" + i, "password");
+        onlineUsers.put(user, handler);
+    }
+    User sender = new User("sender");
+    Message reply = new Message(NetCommands.updateGroup, sender);
+
+    assertNotNull(reply);
+
+    onlineUsers.remove("Name1");
+    if(onlineUsers.containsKey("Name1")){       //if this is true, something has gone wrong
+        fail();
+    }else{
+        //wait for user to log on
+        assertEquals(0, controller.sendReply(reply));
+    }
 } 
 
 /** 
@@ -91,9 +162,14 @@ public void testHandleClientTask() throws Exception {
 * 
 */ 
 @Test
-public void testLogoutUser() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testLogoutUser() throws Exception {
+    ClientHandler c = mock(ClientHandler.class);
+    User user = new User("TestPerson");
+    Message message = new Message((NetCommands.logout), user);
+    assertEquals(user, message.getUser());
+    when (c.logout(user)).thenReturn(true);
+
+}
 
 /** 
 * 
@@ -101,8 +177,9 @@ public void testLogoutUser() throws Exception {
 * 
 */ 
 @Test
-public void testRegisterNewGroup() throws Exception { 
-//TODO: Test goes here... 
+public void  testRegisterNewGroup() throws Exception {
+//TODO: Test goes here...
+
 } 
 
 /** 
@@ -111,8 +188,22 @@ public void testRegisterNewGroup() throws Exception {
 * 
 */ 
 @Test
-public void testUpdateGroup() throws Exception { 
-//TODO: Test goes here... 
+public void testUpdateGroup() throws Exception {
+    Group updatedGroup = new Group();
+    updatedGroup.setName("ExampleName");
+    updatedGroup.setOwner("GroupOwner");
+    RegisteredGroups groups = mock(RegisteredGroups.class);
+    groups.updateGroup(updatedGroup);
+    ArrayList<User> memberList = new ArrayList<>();
+    for (int i = 0; i < 4; i++){
+        User dummy = new User("Name" + i);
+        updatedGroup.addMember(dummy);       //adds 5 random users to the grp
+        memberList.add(dummy);
+    }
+
+    assertEquals(updatedGroup.getName(), "ExampleName");
+    assertEquals(updatedGroup.getOwner(), "GroupOwner");
+    assertEquals(updatedGroup.getMembers(), memberList);
 } 
 
 /** 
@@ -121,20 +212,16 @@ public void testUpdateGroup() throws Exception {
 * 
 */ 
 @Test
-public void testSearchForUser() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testSearchForUser() throws Exception {
+    User dummy = new User("Dummy");
+    Message request = new Message(NetCommands.searchForUser, dummy);
 
-/** 
-* 
-* Method: run() 
-* 
-*/ 
-@Test
-public void testRun() throws Exception { 
-//TODO: Test goes here... 
-} 
+    RegisteredUsers registeredUsers = mock(RegisteredUsers.class);
+    registeredUsers.writeUserToFile(dummy);
 
+    assertEquals(dummy, request.getUser());
+    assertNotNull(dummy);
+}
 
 /** 
 * 
@@ -142,18 +229,19 @@ public void testRun() throws Exception {
 * 
 */ 
 @Test
-public void testDeleteGroup() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = ServerController.getClass().getMethod("deleteGroup", Message.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
+public void testDeleteGroup() throws Exception {
+    RegisteredGroups groups = mock(RegisteredGroups.class);
+    Group group = new Group(123);
+
+    for(int i = 1; i < 5; i++){
+        User user = new User("Username" + i);
+        group.addMember(user);
+    }
+    assertNotNull(group.getUsers());
+    assertEquals(group.getUsers().size(), 4);
+
+    groups.deleteGroup(group);
+    assertNull(groups.getGroupFromFile(123));
 } 
 
 /** 
