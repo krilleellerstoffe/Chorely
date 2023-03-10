@@ -4,38 +4,19 @@ import controller.ClientHandler;
 import controller.ServerController;
 import model.RegisteredGroups;
 import model.RegisteredUsers;
-import static org.mockito.ArgumentMatcher.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.checkerframework.checker.units.qual.C;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-//import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Assert;
-import service.DatabaseConnection;
-import service.QueryExecutor;
 import shared.transferable.*;
-
-import javax.management.Query;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /** 
 * ServerController Tester. 
 * 
-* @author <Authors name> 
+* @author Måns
 * @since <pre>feb. 8, 2023</pre> 
 * @version 1.0 
 */ 
@@ -48,14 +29,20 @@ public class ServerControllerTest {
 */ 
 @Test
 public void testHandleMessage() throws Exception {
+    User dummy = new User("Dummy");
+    Message message = new Message(NetCommands.connected, dummy);
 
-//TODO: Test goes here... 
+    LinkedBlockingQueue<Message> clientTaskBuffer = new LinkedBlockingQueue<>();
+    clientTaskBuffer.add(message);
+    int bufferSize = clientTaskBuffer.size();
+    assertEquals(bufferSize, 1);
+
 } 
 
 /** 
 * 
 * Method: addOnlineClient(User user, ClientHandler client) 
-* 
+* @author Måns
 */ 
 @Test
 public void testAddOnlineClient() throws Exception {
@@ -66,13 +53,14 @@ public void testAddOnlineClient() throws Exception {
     ClientHandler handler = mock(ClientHandler.class);
     onlineUsers.put(user, handler);
     assertEquals(handler, onlineUsers.get(user));
+    assertNotNull(onlineUsers.get(user));
 
 } 
 
 /** 
 * 
 * Method: removeOnlineClient(User user) 
-* 
+* @author Måns
 */ 
 @Test
 public void testRemoveOnlineClient() throws Exception {
@@ -106,8 +94,8 @@ public void testSendSavedGroups() throws Exception {
 
 /** 
 * 
-* Method: sendReply(Message reply) 
-* 
+* Method: sendReply(Message reply)
+* @author Måns
 */ 
 @Test
 public void testSendReply() throws Exception {
@@ -136,7 +124,7 @@ public void testSendReply() throws Exception {
 /** 
 * 
 * Method: notifyGroupChanges(Group group) 
-* 
+*
 */ 
 @Test
 public void testNotifyGroupChanges() throws Exception { 
@@ -156,7 +144,7 @@ public void testHandleClientTask() throws Exception {
 /** 
 * 
 * Method: logoutUser(Message msg) 
-* 
+* @author Måns
 */ 
 @Test
 public void testLogoutUser() throws Exception {
@@ -182,7 +170,7 @@ public void  testRegisterNewGroup() throws Exception {
 /** 
 * 
 * Method: updateGroup(Message request) 
-* 
+* @author Måns
 */ 
 @Test
 public void testUpdateGroup() throws Exception {
@@ -206,7 +194,7 @@ public void testUpdateGroup() throws Exception {
 /** 
 * 
 * Method: searchForUser(Message request) 
-* 
+* @author Måns
 */ 
 @Test
 public void testSearchForUser() throws Exception {
@@ -223,7 +211,7 @@ public void testSearchForUser() throws Exception {
 /** 
 * 
 * Method: deleteGroup(Message msg) 
-* 
+* @author Måns
 */ 
 @Test
 public void testDeleteGroup() throws Exception {
