@@ -78,8 +78,8 @@ public void testAddOnlineClient() throws Exception {
 public void testRemoveOnlineClient() throws Exception {
 
     ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
-    ServerController controller = new ServerController(1234);
-    ClientHandler clientHandler = new ClientHandler(new Socket(), controller);
+    ServerController controller = mock(ServerController.class);
+    ClientHandler clientHandler = mock(ClientHandler.class);
     for (int i = 1; i < 5; i++){        //Create 5 new users and add them to the map
         User user = new User("Name" + i, "password");
         onlineUsers.put(user, clientHandler);
@@ -112,16 +112,15 @@ public void testSendSavedGroups() throws Exception {
 @Test
 public void testSendReply() throws Exception {
     ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
-    ServerController controller = new ServerController(1234);
-    ClientHandler clientHandler = new ClientHandler(new Socket(), controller);
+    ServerController controller = mock(ServerController.class);
+    ClientHandler handler = mock(ClientHandler.class);
 
     for (int i = 1; i < 5; i++){        //Create 5 new users and add them to the map
         User user = new User("Name" + i, "password");
-        onlineUsers.put(user, clientHandler);
+        onlineUsers.put(user, handler);
     }
     User sender = new User("sender");
     Message reply = new Message(NetCommands.updateGroup, sender);
-    ClientHandler client = onlineUsers.get(reply.getUser());
 
     assertNotNull(reply);
 
@@ -175,8 +174,9 @@ public void testLogoutUser() throws Exception {
 * 
 */ 
 @Test
-public void testRegisterNewGroup() throws Exception { 
-//TODO: Test goes here... 
+public void  testRegisterNewGroup() throws Exception {
+//TODO: Test goes here...
+
 } 
 
 /** 
@@ -226,18 +226,19 @@ public void testSearchForUser() throws Exception {
 * 
 */ 
 @Test
-public void testDeleteGroup() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = ServerController.getClass().getMethod("deleteGroup", Message.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
+public void testDeleteGroup() throws Exception {
+    RegisteredGroups groups = mock(RegisteredGroups.class);
+    Group group = new Group(123);
+
+    for(int i = 1; i < 5; i++){
+        User user = new User("Username" + i);
+        group.addMember(user);
+    }
+    assertNotNull(group.getUsers());
+    assertEquals(group.getUsers().size(), 4);
+
+    groups.deleteGroup(group);
+    assertNull(groups.getGroupFromFile(123));
 } 
 
 /** 
