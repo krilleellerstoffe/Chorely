@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /** 
 * ServerController Tester. 
@@ -46,7 +47,8 @@ public class ServerControllerTest {
 * 
 */ 
 @Test
-public void testHandleMessage() throws Exception { 
+public void testHandleMessage() throws Exception {
+
 //TODO: Test goes here... 
 } 
 
@@ -56,23 +58,14 @@ public void testHandleMessage() throws Exception {
 * 
 */ 
 @Test
-public void testAddOnlineClient() throws Exception { 
-//TODO: Test goes here...
+public void testAddOnlineClient() throws Exception {
 
     ConcurrentHashMap<User, ClientHandler> onlineUsers = new ConcurrentHashMap<>();
     User user = new User("Testme", "123");
 
-    try {
-        ServerSocket serverSocket = new ServerSocket(1234);
-        Socket socket = serverSocket.accept();
-        ClientHandler handler = new ClientHandler(socket, new ServerController(1234));
-
-        onlineUsers.put(user, handler);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-
-    assertTrue(onlineUsers.contains(user));
+    ClientHandler handler = mock(ClientHandler.class);
+    onlineUsers.put(user, handler);
+    assertEquals(handler, onlineUsers.get(user));
 
 } 
 
