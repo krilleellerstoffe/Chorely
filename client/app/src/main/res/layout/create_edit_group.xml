@@ -180,6 +180,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageButton
+                    android:id="@+id/edit_member_promote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginStart="286dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="42dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/background"
+                    android:baselineAligned="false"
+                    android:onClick="removeMemberFromGroup"
+                    android:rotationX="0"
+                    android:scaleType="centerInside"
+                    android:visibility="invisible"
+                    app:srcCompat="@android:drawable/stat_sys_upload_done" />
+
                 <TextView
                     android:id="@+id/edit_group_textViewMembers"
                     android:layout_width="wrap_content"
@@ -202,8 +224,7 @@
                     android:baselineAligned="false"
                     android:onClick="removeMemberFromGroup"
                     android:visibility="invisible"
-                    app:srcCompat="@drawable/delete_icon"
-                    />
+                    app:srcCompat="@drawable/delete_icon" />
             </RelativeLayout>
 
             <ListView
@@ -215,6 +236,7 @@
                 android:textAlignment="textStart">
 
             </ListView>
+
         </LinearLayout>
     </ScrollView>
 
