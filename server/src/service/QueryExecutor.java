@@ -101,9 +101,10 @@ public class QueryExecutor {
     }
 
     //commit tx once connection established
-    public void endTransaction() throws SQLException {
+    public Statement endTransaction() throws SQLException {
         connection.getConnection().commit();
         connection.getConnection().setAutoCommit(true);
+        return null;
     }
     //any problems and the tx gets rolled back
     public void rollbackTransaction() throws SQLException {

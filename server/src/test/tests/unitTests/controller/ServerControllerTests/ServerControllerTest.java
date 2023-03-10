@@ -1,5 +1,6 @@
 package unitTests.controller.ServerControllerTests;
 
+
 import controller.ClientHandler;
 import controller.ServerController;
 import model.RegisteredGroups;
@@ -10,6 +11,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.checkerframework.checker.units.qual.C;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,8 +40,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 * @author <Authors name> 
 * @since <pre>feb. 8, 2023</pre> 
 * @version 1.0 
-*/ 
-public class ServerControllerTest { 
+*/
+
+public class ServerControllerTest {
 
 /** 
 * 
