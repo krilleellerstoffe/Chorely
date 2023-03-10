@@ -120,7 +120,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="5"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -133,7 +133,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="10"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -146,7 +146,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="20"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -159,7 +159,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="50"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -172,7 +172,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="100"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -185,7 +185,7 @@
             android:onClick="onRadioButtonClicked"
             android:padding="1dp"
             android:text="500"
-            android:textColor="@color/btnColor"
+            android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
     </RadioGroup>
