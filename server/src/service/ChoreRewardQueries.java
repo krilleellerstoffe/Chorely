@@ -27,7 +27,7 @@ public class ChoreRewardQueries {
         String sqlSafeDesc = makeSqlSafe(chore.getDescription());
         int points = chore.getScore();
         int groupID = chore.getGroupID();
-        String query = "INSERT INTO [Chore] VALUES ('" + sqlSafeName + "', '" + groupID + "', '" + sqlSafeDesc + "', " + points + ", null)";
+        String query = "INSERT INTO [Chore] VALUES ('" + sqlSafeName + "', " + groupID + ", '" + sqlSafeDesc + "', " + points + ", null)";
         System.out.println(query);
         try {
             queryExecutor.executeUpdateQuery(query);
@@ -161,7 +161,7 @@ public class ChoreRewardQueries {
         String sqlSafeDesc = makeSqlSafe(reward.getDescription());
         int points = reward.getRewardPrice();
         int groupID = reward.getGroupID();
-        String query = "INSERT INTO [Reward] VALUES ('" + sqlSafeName + "', '" + groupID + "', '" + sqlSafeDesc + "', " + points + ", null)";
+        String query = "INSERT INTO [Reward] VALUES ('" + sqlSafeName + "', " + groupID + ", '" + sqlSafeDesc + "', " + points + ", null)";
         try {
             queryExecutor.executeUpdateQuery(query);
             success = true;
