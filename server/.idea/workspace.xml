@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/main/java/com/mau/chorely/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/app/src/test/java/com/mau/chorely/test/CreateEditGroupActivityTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/app/src/test/java/com/mau/chorely/test/ModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/app/src/test/java/com/mau/chorely/test/ModelTest.java" afterDir="false" />
+    <list default="true" id="2244c873-27e5-4779-add0-219b14bdef42" name="Changes" comment="removed extra quote marks">
+      <change afterPath="$PROJECT_DIR$/../client/.idea/other.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,11 +53,13 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.24367817" />
   </component>
-  <component name="RunManager" selected="Application.DatabaseConnection">
+  <component name="RunManager" selected="Application.StartProgram">
     <configuration name="DatabaseConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="service.DatabaseConnection" />
       <module name="server" />
@@ -138,8 +139,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.StartProgram" />
+        <item itemvalue="Application.DatabaseConnection" />
         <item itemvalue="Application.GroupQueries" />
       </list>
     </recent_temporary>
@@ -243,7 +244,19 @@
       <option name="presentableId" value="LOCAL−00015" />
       <updated>1676820445943</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL−00016" summary="updated dependencies">
+      <created>1678456616275</created>
+      <option name="number" value="LOCAL−00016" />
+      <option name="presentableId" value="LOCAL−00016" />
+      <updated>1678456616275</updated>
+    </task>
+    <task id="LOCAL−00017" summary="removed extra quote marks">
+      <created>1679416282857</created>
+      <option name="number" value="LOCAL−00017" />
+      <option name="presentableId" value="LOCAL−00017" />
+      <updated>1679416282857</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -281,7 +294,9 @@
     <MESSAGE value="create group" />
     <MESSAGE value="chore/reward queries,&#10;updated deleteUser query&#10;started linking model -&gt; service" />
     <MESSAGE value="coupled register/login methods -&gt; database users" />
-    <option name="LAST_COMMIT_MESSAGE" value="coupled register/login methods -&gt; database users" />
+    <MESSAGE value="updated dependencies" />
+    <MESSAGE value="removed extra quote marks" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed extra quote marks" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/server$unitTests_in_server.ic" NAME="unitTests in server Coverage Results" MODIFIED="1676288559782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
