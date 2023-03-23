@@ -155,7 +155,7 @@ public class FragmentScore extends Fragment {
         Collections.sort(leaderBoard, new Comparator<ListItemCentral>() {
             @Override
             public int compare(ListItemCentral o1, ListItemCentral o2) {
-                return o1.getPointsInt() - o2.getPointsInt();
+                return o2.getPointsInt() - o1.getPointsInt();
             }
         });
     }
